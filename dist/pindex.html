@@ -10,8 +10,8 @@
 
 	<body>
 		<div id="app" class="app"></div>
-		<script src="/react.js"></script>
-		<script src="/bundle.js"></script>
-		<link rel="stylesheet" type="text/css" href="/style/style.min.css">
+		<script src=<%=StrReplaceOne(AbsoluteUrl("react.js"), "x-local://wt/web", "") %>></script>
+		<script src=<%=StrReplaceOne(AbsoluteUrl("bundle.js"), "x-local://wt/web", "") %>></script>
+		<link rel="stylesheet" type="text/css" href=<%=StrReplaceOne(AbsoluteUrl("style/style.min.css"), "x-local://wt/web", "") %> >
 	</body>
 </html>

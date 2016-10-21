@@ -1,13 +1,15 @@
 import {get, post} from '../utils/ajax';
+import actionStatuses from '../utils/actionStatuses';
 import camelcase from 'camelcase';
 import config from '../config';
-import {assign, omit} from 'lodash'
+import assign from 'lodash/assign';
+import omit from 'lodash/omit';
 
 function requestFromAction(action, params, isCache){
 	const httpType = action.meta.httpType;
 
 	if (httpType === 'POST'){
-		return post(config.url.createPath(params), JSON.stringify(params), isCache);
+		return post(config.url.createPath(params), JSON.stringify(action.payload), isCache);
 	}
 	else {
 		return get(config.url.createPath(params), isCache);
@@ -22,19 +24,9 @@ export default store => next => action => {
 
 	    requestFromAction(action, params, isCache)
 	    .then(data => {
-	    	const _action = {type: action.type + '_SUCCESS'};
-	    	if (data === ''){
-	    		return next(assign(_action, params));
-	    	}
-
-	    	let _data = JSON.parse(data);
-	    	if (_data.error){
-	    		throw new Error(_data.error);
-	    	}
-
 	    	let newAction = assign({
 	    		type: action.type + '_SUCCESS',
-	    		response: _data,
+	    		response: JSON.parse(data),
 	    	}, params)
 	    	return next(newAction);
 	    }, e => {
