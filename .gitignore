@@ -1,2 +1,4 @@
 node_modules/
+dist/*
+!dist/pindex.html
 npm-debug.log
