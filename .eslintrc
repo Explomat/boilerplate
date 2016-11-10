@@ -10,7 +10,8 @@
   ],
   "globals": {
       "Promise": true,
-      "ActiveXObject": true
+      "ActiveXObject": true,
+      "isNAN": true
   },
   "rules": {
     "no-debugger": 0,
@@ -22,7 +23,7 @@
     "no-mixed-spaces-and-tabs":0,
     "no-use-before-define": 0,
     "no-unused-labels": 1,
-    "no-unused-vars": 1,
+    "no-unused-vars": 0,
     "eol-last": 0,
     "quotes": [0, "single"],
     "jsx-quotes": [0, "prefer-single"],
