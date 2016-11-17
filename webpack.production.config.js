@@ -1,7 +1,7 @@
 var webpack = require('webpack');
 var ExtractTextPlugin = require ('extract-text-webpack-plugin');
 var path = require('path');
-//console.log(process.env.NODE_ENV)
+var project = require('./project.config');
 
 module.exports = {
     entry: {
@@ -10,7 +10,7 @@ module.exports = {
     },
     devtool: 'source-map',
     output: {
-        path: path.join(__dirname, 'dist'),
+        path: project.remotePath,
         publicPath: '/',
         filename: 'bundle.js',
         library: '[name]'   
@@ -70,13 +70,13 @@ module.exports = {
             name: 'react',
             filename: 'react.js'
         }),
-        new ExtractTextPlugin('style/style.min.css', { allChunks: true }),
-        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /ru/),
         new webpack.DefinePlugin({
           "process.env": { 
              NODE_ENV: JSON.stringify("production") 
            }
         }),
+        new ExtractTextPlugin('style/style.min.css', { allChunks: true }),
+        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /ru/),
         new webpack.optimize.UglifyJsPlugin({ mangle: false })
     ]
 }

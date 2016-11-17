@@ -47,7 +47,7 @@ var obj = {
 	},
 
 	hashes: {
-		calendar: 'calendar'
+		boilerplate: 'boilerplate'
 	}
 }
 
