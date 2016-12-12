@@ -1,5 +1,5 @@
 import constants from '../constants/constants';
-import {setSuccess, setFailure} from './utils/setState';
+import { setSuccess, setFailure } from './utils/setState';
 import assign from 'lodash/assign';
 
 export default function app(state = {
@@ -12,8 +12,7 @@ export default function app(state = {
 			return setFailure(state, action.error, 'error', 'isFetching');
 		case constants.GET_ACCESS_SUCCESS:
 			return setSuccess(state, action.response, 'error', 'isFetching');
-
-		default: 
+		default:
 			return state;
 	}
 }

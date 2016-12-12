@@ -4,44 +4,37 @@ import './style/checkbox.scss';
 
 class CheckBox extends React.Component {
 
-	constructor(props){
-		super(props);
-		this.state = {
-			checked: props.checked || false
-		}
-	}
-
 	static propsTypes = {
 		checked: React.PropTypes.bool,
 		label: React.PropTypes.string,
 		onChange: React.PropTypes.func,
-		className: React.PropTypes.string,
-		style: React.PropTypes.object
-	}
-
-	componentWillReceiveProps(nextProps){
-		this.setState({checked: nextProps.checked});
+		className: React.PropTypes.string
 	}
 
 	handleToggleChecked(e){
 		e.stopPropagation();
     	e.nativeEvent.stopImmediatePropagation();
-
-		this.setState({checked: !this.state.checked});
+    	
 		if (this.props.onChange){
-			this.props.onChange(!this.state.checked);
+			this.props.onChange(!this.props.checked);
 		}
 	}
 
 	render() {
 		const classes= cx({
-			'checkbox-box': true, 
-			'checkbox-box--empty': !this.props.label
-		},this.props.className);
+			'checkbox-box': true
+		}, this.props.className);
+
+		const checkboxIconClasses = cx({
+			'checkbox-box__icon': true,
+			'checkbox-box__icon--checked': this.props.checked
+		});
 		return (
-			<div style={this.props.style} className={classes} onClick={::this.handleToggleChecked}>
-				<input className="checkbox-box__input" type="checkbox" checked={this.state.checked} onChange={function(){}}/>
-    			<label className="checkbox-box__label">{this.props.label}</label>
+			<div className={classes} onClick={::this.handleToggleChecked}>
+				<div className="checkbox-box__container">
+					<div className={checkboxIconClasses}></div>
+					<div className="checkbox-box__label">{this.props.label}</div>
+				</div>
 			</div>
 		);
 	}

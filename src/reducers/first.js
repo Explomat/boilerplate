@@ -1,9 +1,9 @@
 import constants from '../constants/constants';
-import {setSuccess, setFailure} from './utils/setState';
+import { setSuccess, setFailure } from './utils/setState';
 import assign from 'lodash/assign';
 
 function setTestsPeriod(state, period){
-	return assign(state, { period: period });
+	return assign(state, { period });
 }
 
 export default function testsResultInfo(state = {
@@ -29,7 +29,7 @@ export default function testsResultInfo(state = {
 		case constants.SELECT_TESTS_RESULT_BY_PERIOD_SUCCESS:
 			return setTestsPeriod(setSuccess(state, action.response, 'errorByPeriod', 'isFetchingByPeriod'), action.period);
 
-		default: 
+		default:
 			return state;
 	}
 }
