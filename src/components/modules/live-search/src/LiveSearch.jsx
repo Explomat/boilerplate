@@ -14,17 +14,17 @@ class Item extends React.Component {
 	}
 
 	render() {
-		const {value, description} = this.props;
+		const { value, description } = this.props;
 		return (
-			<ul className="live-search__items" onClick={::this.handleSelect}>
-				<li className="live-search__item">
-					<div className="live-search__item-name">{value}</div>
-					<div className="live-search__item-description">{description}</div>
+			<ul className='live-search__items' onClick={::this.handleSelect}>
+				<li className='live-search__item'>
+					<div className='live-search__item-name'>{value}</div>
+					<div className='live-search__item-description'>{description}</div>
 				</li>
 			</ul>
 		);
 	}
-};
+}
 
 class LiveSearch extends React.Component {
 
@@ -37,7 +37,7 @@ class LiveSearch extends React.Component {
 			value: props.value,
 			items: [],
 			display: false
-		}
+		};
 	}
 
 	static propTypes = {
@@ -62,9 +62,9 @@ class LiveSearch extends React.Component {
 	}
 
 	_getData(query, search, limit){
-		return Ajax.sendRequest(query + '&search=' + search + '&limit=' + limit).then((items) => {
+		return Ajax.sendRequest(`${query  }&search=${  search  }&limit=${  limit}`).then((items) => {
 			return JSON.parse(items);
-		}).catch(function(){
+		}).catch(() => {
 			return [];
 		});
 	}
@@ -77,10 +77,10 @@ class LiveSearch extends React.Component {
 	}
 
 	_onSearch(){
-		if ((Date.now() - this.curKeyUpMilliseconds) >= this.props.timeoutDelay ) {
+		if ((Date.now() - this.curKeyUpMilliseconds) >= this.props.timeoutDelay) {
 			this._clearTimeouts();
 			this._getData(this.props.query, this.currentValue, this.props.limit).then((items) => {
-				this.setState({items: items, display: true});
+				this.setState({ items, display: true });
 			});
 		}
 	}
@@ -89,8 +89,8 @@ class LiveSearch extends React.Component {
 		this.currentValue = value;
 		this.curKeyUpMilliseconds = Date.now();
 
-		this.setState({value: value});
-		var timeoutID = window.setTimeout(::this._onSearch, this.props.timeoutDelay);
+		this.setState({ value });
+		const timeoutID = window.setTimeout(::this._onSearch, this.props.timeoutDelay);
 		this.timeouts.push(timeoutID);
 	}
 
@@ -99,7 +99,7 @@ class LiveSearch extends React.Component {
 	}
 
 	handleClickOutside(){
-		this.setState({display: false});
+		this.setState({ display: false });
 	}
 
 	handleChange(e){
@@ -121,14 +121,14 @@ class LiveSearch extends React.Component {
 
 	handleSelect(payload, value){
 		if (this.props.onSelect){
-			this.setState({display: false});
+			this.setState({ display: false });
 			this.props.onSelect(payload, value);
 		}
 	}
 
 	render() {
-		const {placeholder} = this.props;
-		const {items, display, value} = this.state;
+		const { placeholder } = this.props;
+		const { items, display, value } = this.state;
 		const classes = cx('live-search', this.props.className);
 		const contentClasses = cx({
 			'live-search__content': true,
@@ -140,22 +140,23 @@ class LiveSearch extends React.Component {
 		});
 		return (
 			<div className={classes}>
-				<div className="live-search__container">
-					<span ref="searchBox" className="live-search__search-box">
+				<div className='live-search__container'>
+					<span ref='searchBox' className='live-search__search-box'>
 						<input
-							onClick={::this.handleClick}
-							onFocus={::this.handleFocus}
-							onChange={::this.handleChange}
-							onKeyUp={::this.handleKeyUp} 
-							className={inputClasses}
-							value={value}/>
-						 <label className="live-search__label">{placeholder}</label>
-						 <span className="icon-magnifying-glass live-search__caret"></span>
+  onClick={::this.handleClick}
+  onFocus={::this.handleFocus}
+  onChange={::this.handleChange}
+  onKeyUp={::this.handleKeyUp}
+  className={inputClasses}
+  value={value}
+						/>
+						 <label className='live-search__label'>{placeholder}</label>
+						 <span className='icon-magnifying-glass live-search__caret' />
 					</span>
-					<div className="live-search__drop">
+					<div className='live-search__drop'>
 						<div className={contentClasses}>
 							{items.map((i, index) => {
-								return <Item key={index} {...i} onSelect={::this.handleSelect}/>
+								return <Item key={index} {...i} onSelect={::this.handleSelect}/>;
 							})}
 						</div>
 					</div>
@@ -163,6 +164,6 @@ class LiveSearch extends React.Component {
 			</div>
 		);
 	}
-};
+}
 
 export default listensToClickOutside(LiveSearch);

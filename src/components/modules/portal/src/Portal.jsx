@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 class Portal extends Component {
 	
 	_renderComponent(){
-		let newObj = { children: this.props.children, className: this.props.className }
+		const newObj = { children: this.props.children, className: this.props.className };
 		ReactDOM.render(
 			<div
 				{...newObj}
@@ -14,15 +14,14 @@ class Portal extends Component {
 	}
 
 	componentDidMount(){
-		let {node, nodeId, nodeClass} = this.props;
-		let nodeById = document.getElementById(nodeId);
-		let nodeByClass = document.getElementsByClassName(nodeClass)[0];
+		let { node, nodeId, nodeClass } = this.props;
+		const nodeById = document.getElementById(nodeId);
+		const nodeByClass = document.getElementsByClassName(nodeClass)[0];
 
-		let newNode = node ? node : nodeId ? nodeById : nodeClass ? nodeByClass : null;
+		const newNode = node ? node : nodeId ? nodeById : nodeClass ? nodeByClass : null;
 		if (newNode){
 			this.node = newNode;
-		}
-		else {
+		}		else {
 			this.node = document.createElement('div');
 			document.body.appendChild(this.node);
 		}
@@ -47,6 +46,6 @@ Portal.PropTypes = {
 	nodeId: PropTypes.string,
 	nodeClass: PropTypes.string,
 	className: PropTypes.string
-}
+};
 
 export default Portal;

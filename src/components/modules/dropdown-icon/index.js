@@ -1,1 +1,2 @@
-module.exports = require('./src/DropDownIcon');
+export DropDownIcon from './src/DropDownIcon';
+export DropDownIconItem from './src/DropDownIconItem';

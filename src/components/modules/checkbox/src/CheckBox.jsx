@@ -4,13 +4,6 @@ import './style/checkbox.scss';
 
 class CheckBox extends React.Component {
 
-	static propsTypes = {
-		checked: React.PropTypes.bool,
-		label: React.PropTypes.string,
-		onChange: React.PropTypes.func,
-		className: React.PropTypes.string
-	}
-
 	handleToggleChecked(e){
 		e.stopPropagation();
     	e.nativeEvent.stopImmediatePropagation();
@@ -21,7 +14,7 @@ class CheckBox extends React.Component {
 	}
 
 	render() {
-		const classes= cx({
+		const classes = cx({
 			'checkbox-box': true
 		}, this.props.className);
 
@@ -31,13 +24,20 @@ class CheckBox extends React.Component {
 		});
 		return (
 			<div className={classes} onClick={::this.handleToggleChecked}>
-				<div className="checkbox-box__container">
-					<div className={checkboxIconClasses}></div>
-					<div className="checkbox-box__label">{this.props.label}</div>
+				<div className='checkbox-box__container'>
+					<div className={checkboxIconClasses} />
+					<div className='checkbox-box__label'>{this.props.label}</div>
 				</div>
 			</div>
 		);
 	}
+}
+
+CheckBox.PropTypes = {
+	checked: React.PropTypes.bool,
+	label: React.PropTypes.string,
+	onChange: React.PropTypes.func,
+	className: React.PropTypes.string
 };
 
 export default CheckBox;

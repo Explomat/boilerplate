@@ -1,51 +1,12 @@
 import React from 'react';
 import {TextView, TextAreaView} from '../../text-label';
+import SelectedItem from './SelectedItem';
+import NotSelectedItem from './NotSelectedItem';
 import {find, filter} from 'lodash';
 import cx from 'classnames';
 
 import './style/message.scss';
 
-class SelectedItem extends React.Component {
-
-    handleRemoveFromSelected(){
-        if (this.props.onRemoveSelected) {
-            this.props.onRemoveSelected(this.props.id);
-        }
-    }
-
-    render(){
-        const {fullname} = this.props;
-        return (
-            <div onClick={::this.handleRemoveFromSelected} className="selected-item">
-                <button className="selected-item__button event-btn">
-                    <i className="icon-minus"></i>
-                </button>
-                <span className="selected-item__fullname">{fullname}</span>
-            </div>
-        );
-    }
-}
-
-class NotSelectedItem extends React.Component {
-
-    handleRemoveFromNotSelected(){
-        if (this.props.onRemoveNotSelected) {
-            this.props.onRemoveNotSelected(this.props.id);
-        }
-    }
-
-    render(){
-        const {fullname} = this.props;
-        return (
-            <div onClick={::this.handleRemoveFromNotSelected} className="not-selected-item">
-                <button className="not-selected-item__button event-btn">
-                    <i className="icon-plus"></i>
-                </button>
-                <span className="not-selected-item__fullname">{fullname}</span>
-            </div>
-        );
-    }
-}
 
 class Message extends React.Component {
 

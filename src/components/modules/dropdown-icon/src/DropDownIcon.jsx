@@ -1,62 +1,18 @@
 import React from 'react';
 import cx from 'classnames';
 import listensToClickOutside from 'react-onclickoutside';
+
 import './style/dropdown-icon.scss';
-
-export class DropDownIconItem extends React.Component {
-
-	static propTypes = {
-		payload: React.PropTypes.string,
-		text: React.PropTypes.string
-	}
-
-	static contextTypes = {
-		onToggle: React.PropTypes.func
-	}
-
-	handleClick(e) {
-		if (this.context.onToggle){
-			this.context.onToggle();
-		}
-		if (this.props.onClick)
-			this.props.onClick(e, this.props.payload, this.props.text);
-	}
-
-	render() {
-		const {text} = this.props;
-		return (
-			<li className="dropdown-icon__item" onClick={::this.handleClick}>
-				<span>{text}</span>
-			</li>
-		);
-	}
-};
 
 class _DropDownIcon extends React.Component {
 
 	constructor(props){
 		super(props);
 
-		this.isRightBoundOverflow = false; //заезжает ли за правую границу экрана
-	}
-
-	static propTypes = {
-		//icons: React.PropTypes.array, //Количество такое же как и items. Payload должен совпадать с payload item. [ payload: 1, iconClass: icon-class ]
-		icon: React.PropTypes.any,
-		className: React.PropTypes.string,
-		classNameList: React.PropTypes.string
-	}
-
-	static childContextTypes = {
-		onToggle: React.PropTypes.func
-	}
-
-	static defaultProps = {
-		children: []
-	}
-
-	state = {
-		display: false
+		this.isRightBoundOverflow = false; // заезжает ли за правую границу экрана
+		this.state = {
+			display: false
+		};
 	}
 
 	getChildContext(){
@@ -70,10 +26,10 @@ class _DropDownIcon extends React.Component {
   	}
 
   	_isRightBoundOverflow(){
-  		let listContainer = this.refs.listContainer; 
-  		let list = this.refs.list;
+  		const listContainer = this.refs.listContainer;
+  		const list = this.refs.list;
 
-  		let listContainerLeftBound = listContainer.getBoundingClientRect().left;
+  		const listContainerLeftBound = listContainer.getBoundingClientRect().left;
   		const listWidth = list.offsetWidth;
   		const windowWidth = window.innerWidth;
   		return listContainerLeftBound + listWidth >= windowWidth;
@@ -90,13 +46,13 @@ class _DropDownIcon extends React.Component {
 	}
 
 	handleClickOutside() {
-		this.setState({display: false});
+		this.setState({ display: false });
 	}
 
 	handleToggleDisplay(e) {
 		this._stopPropagation(e);
 		if (this._isChildren()) {
-			this.setState({display: !this.state.display});
+			this.setState({ display: !this.state.display });
 		}
 	}
 
@@ -111,21 +67,35 @@ class _DropDownIcon extends React.Component {
 		const caretClassName = cx({
 			'dropdown-icon__caret': true,
 			'dropdown-icon__caret--display': isChildren
-		})
+		});
 		return (
 			<div className={className}>
-				<div className="dropdown-icon__button" type="button" onClick={::this.handleToggleDisplay}>
-					<span className="dropdown-icon__button-icon">{this.props.icon}</span>
-					<span className={caretClassName}></span>
+				<div className='dropdown-icon__button' type='button' onClick={::this.handleToggleDisplay}>
+					<span className='dropdown-icon__button-icon'>{this.props.icon}</span>
+					<span className={caretClassName} />
 				</div>
-				<div ref="listContainer" className="dropdown-icon__list-container">
-					<ul ref="list" className={classNameList}>
+				<div ref='listContainer' className='dropdown-icon__list-container'>
+					<ul ref='list' className={classNameList}>
 						{this.props.children}
 					</ul>
 				</div>
 			</div>
 		);
 	}
+}
+
+_DropDownIcon.PropTypes = {
+	icon: React.PropTypes.any,
+	className: React.PropTypes.string,
+	classNameList: React.PropTypes.string
 };
 
-export const DropDownIcon = listensToClickOutside(_DropDownIcon);
+_DropDownIcon.childContextTypes = {
+	onToggle: React.PropTypes.func
+};
+
+_DropDownIcon.defaultProps = {
+	children: []
+};
+
+export default listensToClickOutside(_DropDownIcon);

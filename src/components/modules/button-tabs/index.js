@@ -1,1 +1,2 @@
-export {ButtonTab, ButtonTabs} from './src/ButtonTabs';
+export ButtonTabs from './src/ButtonTabs';
+export ButtonTab from './src/ButtonTab';

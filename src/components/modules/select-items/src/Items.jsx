@@ -1,5 +1,5 @@
 import React from 'react';
-import {ButtonPrimary} from '../../button';
+import { ButtonPrimary } from '../../button';
 import some from 'lodash/some';
 import cx from 'classnames';
 
@@ -8,38 +8,38 @@ class HeaderCol extends React.Component {
 	constructor(props){
 		super(props);
 		this.handleSort = this.handleSort.bind(this);
-	} 	
-
-	static contextTypes = {
-		onSort: React.PropTypes.func
-	}
-
-	static propTypes = {
-		name: React.PropTypes.string,
-		type: React.PropTypes.string,
-		onSort: React.PropTypes.func
-	}
-
-	static defaultProps = {
-		name: ''
 	}
 
 	handleSort(){
 		if (this.context.onSort) {
-			let caret = this.refs.caret;
+			const caret = this.refs.caret;
 			this.context.onSort(this.props.index, caret.classList.contains('caret--rotate'));
 			caret.classList.toggle('caret--rotate');
 		}
 	}
 
 	render(){
-		return(
-			<th onClick={this.handleSort} className="header-row__col">
-				<span className="header-row__col-name">{this.props.name}</span>
-				<span ref="caret" className="caret header-row__caret"></span>
+		return (
+			<th onClick={this.handleSort} className='header-row__col'>
+				<span className='header-row__col-name'>{this.props.name}</span>
+				<span ref='caret' className='caret header-row__caret' />
 			</th>
 		);
 	}
+}
+
+HeaderCol.propTypes = {
+	name: React.PropTypes.string,
+	type: React.PropTypes.string,
+	onSort: React.PropTypes.func
+};
+
+HeaderCol.defaultProps = {
+	name: ''
+};
+
+HeaderCol.contextTypes = {
+	onSort: React.PropTypes.func
 };
 
 class Item extends React.Component {
@@ -47,70 +47,58 @@ class Item extends React.Component {
 	constructor(props){
 		super(props);
 		this.handleAddItem = this.handleAddItem.bind(this);
-	} 	
-
-	static contextTypes = {
-		onAddItem: React.PropTypes.func
-	}
-
-	static propTypes = {
-		data: React.PropTypes.object,
-		isSelected: React.PropTypes.bool
-	}
-
-	static defaultProps = {
-		data: {},
-		isSelected: false
 	}
 
 	handleAddItem(){
 		if (this.context.onAddItem){
-			this.context.onAddItem({...this.props});
+			this.context.onAddItem({ ...this.props });
 		}
 	}
 
 	render(){
-		var data = this.props.data;
-		var classesButton = cx({
+		const data = this.props.data;
+		const classesButton = cx({
 			'body-row__add-btn': true,
 			'body-row__add-btn--selected': this.props.isSelected
 		});
-		var classesIcon = cx({
+		const classesIcon = cx({
 			'icon-plus': !this.props.isSelected,
 			'icon-check': this.props.isSelected
 		});
 		return (
-			<tr className="body-row" onClick={this.handleAddItem}>
+			<tr className='body-row' onClick={this.handleAddItem}>
 				<td>
-					<ButtonPrimary className={classesButton} reverse={true}>
-						<i className={classesIcon}></i>
+					<ButtonPrimary className={classesButton} reverse>
+						<i className={classesIcon} />
 					</ButtonPrimary>
 				</td>
 				{Object.keys(data).map((c, index) => {
-					return <td key={index} className="body-row__col oneline">{data[c]}</td>
+					return <td key={index} className='body-row__col oneline'>{data[c]}</td>;
 				})}
 			</tr>
 		);
 	}
+}
+
+Item.propTypes = {
+	data: React.PropTypes.object,
+	isSelected: React.PropTypes.bool
 };
 
-class Items extends React.Component { 	
+Item.defaultProps = {
+	data: {},
+	isSelected: false
+};
 
-	static propTypes = {
-		headerCols: React.PropTypes.array,
-		items: React.PropTypes.array,
-		selectedItems: React.PropTypes.array
-	}
+Item.contextTypes = {
+	onAddItem: React.PropTypes.func
+};
 
-	static defaultProps = {
-		headerCols: [],
-		items: [],
-		selectedItems: []
-	}
+class Items extends React.Component {
 
 	getColsMarkup(){
-		var headerCols = this.props.headerCols;
-		var markUpCols = [<th key={0}></th>];
+		const headerCols = this.props.headerCols;
+		const markUpCols = [ <th key={0} /> ];
 		headerCols.forEach((c, index) => {
 			markUpCols.push(<HeaderCol key={index + 1} name={c.name} index={index}/>);
 		});
@@ -118,11 +106,11 @@ class Items extends React.Component {
 	}
 
 	getRowsMarkUp(){
-		var items = this.props.items;
-		var selectedItems = this.props.selectedItems;
+		const items = this.props.items;
+		const selectedItems = this.props.selectedItems;
 		return items.map((i, index) => {
-			let isSelected = some(selectedItems, {id: i.id});
-			return <Item key={index} {...i} isSelected={isSelected}/>
+			const isSelected = some(selectedItems, { id: i.id });
+			return <Item key={index} {...i} isSelected={isSelected}/>;
 		});
 	}
 
@@ -133,26 +121,38 @@ class Items extends React.Component {
 			'overlay-loading': true,
 			'overlay-loading--show': this.props.isLoading
 		});
-		return(
-			<div className="items-wrapper">
-				<table className="items-wrapper__header">
+		return (
+			<div className='items-wrapper'>
+				<table className='items-wrapper__header'>
 					<thead>
-						<tr className="header-row">{cols}</tr>
+						<tr className='header-row'>{cols}</tr>
 					</thead>
 				</table>
-				<div className="items-wrapper__body">
-					<table className="items">
-						<tbody className="items__body">
+				<div className='items-wrapper__body'>
+					<table className='items'>
+						<tbody className='items__body'>
 							{items}
 						</tbody>
 					</table>
 				</div>
 				
-				<div className={isLoadingClass}></div>
+				<div className={isLoadingClass} />
 			</div>
 			
 		);
 	}
+}
+
+Items.propTypes = {
+	headerCols: React.PropTypes.array,
+	items: React.PropTypes.array,
+	selectedItems: React.PropTypes.array
+};
+
+Items.defaultProps = {
+	headerCols: [],
+	items: [],
+	selectedItems: []
 };
 
 export default Items;

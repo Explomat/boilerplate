@@ -2,13 +2,12 @@ import React from 'react';
 import SelectedItems from './SelectedItems';
 import Items from './Items';
 import Filters from './Filters';
-import {ButtonPrimary} from '../../button';
-import Ajax from '../../../../utils/ajax';
-import {some} from 'lodash';
+import { ButtonPrimary } from '../../button';
+import { some } from 'lodash';
 import cx from 'classnames';
 import './style/select-items.scss';
 
-/*var items = {
+/* var items = {
 	headerCols: [{ name: 'a', type: 'integer' }],
 	items: [
 		{ id: '1', data: {fullname: '1'} },
@@ -22,7 +21,7 @@ class SelectItems extends React.Component {
 	
 	constructor(props){
 		super(props);
-		this.types = {'integer': 'integer', 'date': 'date'};
+		this.types = { 'integer': 'integer', 'date': 'date' };
 		this.errors = { MAX_SELECTED_ITEMS: `Вы не можете выбрать более ${props.maxSelectedItems} элемента(ов)` };
 
 		this.onSort = this.onSort.bind(this);
@@ -45,16 +44,10 @@ class SelectItems extends React.Component {
 			isLoading: true,
 			error: '',
 			isShowError: false
-		}
-	} 
-
-	static childContextTypes = {
-		onSort: React.PropTypes.func,
-		onAddItem: React.PropTypes.func,
-		onRemoveItem: React.PropTypes.func
+		};
 	}
 
-    getChildContext(){
+	getChildContext(){
     	return {
     		onSort: this.onSort,
     		onAddItem: this.onAddItem,
@@ -62,38 +55,15 @@ class SelectItems extends React.Component {
     	};
   	}
 
-	static propTypes = {
-		items: React.PropTypes.array,
-		selectedItems: React.PropTypes.array,
-		maxSelectedItems: React.PropTypes.number,
-		title: React.PropTypes.string,
-		onClose: React.PropTypes.func,
-		onSave: React.PropTypes.func,
-		onChange: React.PropTypes.func
-	}
-
-	static defaultProps = {
-		title: '',
-		maxSelectedItems: Number.MAX_VALUE
-	}
-
-	componentDidMount(){
-		/*var self = this;
-		this._getData(this.props.query, this.state.page, this.state.search).then(data => {
-			self._setData(data);
-		});*/
-	}
-
 	componentWillReceiveProps(nextProps){
 		this.setState({
-			items: nextProps.items ? nextProps.items : [], 
+			items: nextProps.items ? nextProps.items : [],
 			selectedItems: nextProps.selectedItems ? nextProps.selectedItems : [],
 			isLoading: false
 		});
 	}
 
 	_castType(val, type){
-
 		function isInteger(val) {
 			return isNaN(parseInt(val)) === false;
 		}
@@ -103,7 +73,7 @@ class SelectItems extends React.Component {
 		}
 
 		if (val === undefined || val === null || !(type in this.types)) return val.toString();
-		switch(type) {
+		switch (type) {
 			case this.types.integer:
 				if (isInteger(val) === true){
 					return Number(val);
@@ -119,62 +89,54 @@ class SelectItems extends React.Component {
 		}
 	}
 
-	/*_getData(query, page, search){
-		return Ajax.sendRequest(query + '&page=' + page + '&search=' + search).then(_items => {
-			return JSON.parse(_items);
-		}).catch(function(){
-			return [];
-		});
-	}*/
-
 	_setData(data){
-		var self = this;
+		const self = this;
 		if (!data || !data.items || !data.headerCols) return;
 		data.items = data.items.map(item => {
 			Object.keys(item.data).forEach((col, index) => {
 				item.data[col] = self._castType(item.data[col], data.headerCols[index].type);
-			})
+			});
 			return item;
 		});
-		this.setState({items: data.items, headerCols: data.headerCols, pagesCount: data.pagesCount, isLoading: false});
+		this.setState({ items: data.items, headerCols: data.headerCols, pagesCount: data.pagesCount, isLoading: false });
 	}
 
 	onSort(index, isAscending){
 		function getFieldByIndex(data, index){
-			var keys = Object.keys(data).filter((key, _index) => {
+			const keys = Object.keys(data).filter((key, _index) => {
 				return index === _index;
 			});
 			return keys.length > 0 ? data[keys[0]] : null;
 		}
 
-		var isAsc = isAscending ? 1 : -1;
-		var items = this.state.items;
+		const isAsc = isAscending ? 1 : -1;
+		const items = this.state.items;
 		items.sort((first, second) => {
-			var firstField = getFieldByIndex(first.data, index);
-			var secondFiled = getFieldByIndex(second.data, index);
+			const firstField = getFieldByIndex(first.data, index);
+			const secondFiled = getFieldByIndex(second.data, index);
 			if (firstField && secondFiled){
 				return firstField > secondFiled ? isAsc : firstField === secondFiled ? 0 : -(isAsc);
 			}
 			return 0;
 		});
-		this.setState({items: items});
+		this.setState({ items });
 	}
 
 	onAddItem(item){
-		var _items = this.state.items;
-		var _selectedItems = this.state.selectedItems;
+		const _items = this.state.items;
+		const _selectedItems = this.state.selectedItems;
 
 		if (_selectedItems.length >= this.props.maxSelectedItems){
-			this.setState({error: this.errors.MAX_SELECTED_ITEMS, isShowError: true});
+			this.setState({ error: this.errors.MAX_SELECTED_ITEMS, isShowError: true });
 			return;
 		}
-		if (some(_selectedItems, {id: item.id})) return;
-		_selectedItems.push({...item});
-		this.setState({ items: _items, selectedItems: _selectedItems});
+		if (some(_selectedItems, { id: item.id })) return;
+		_selectedItems.push({ ...item });
+		this.setState({ items: _items, selectedItems: _selectedItems });
 	}
 
 	onRemoveItem(id){
-		var _selectedItems = this.state.selectedItems;
+		let _selectedItems = this.state.selectedItems;
 
 		_selectedItems = _selectedItems.filter(r => {
 			return r.id !== id;
@@ -189,34 +151,26 @@ class SelectItems extends React.Component {
 	}
 
 	handleChangeSearch(search){
-		var self = this;
-		this.setState({search: search, isLoading: true, page: 1});
+		this.setState({ search, isLoading: true, page: 1 });
 		if (this.props.onChange){
 			this.props.onChange(search, this.state.page);
 		}
-		/*this._getData(this.props.query, 1, search).then(data => {
-			self._setData(data);
-		});*/
 	}
 
 	handleChangePage(page){
-		var self = this;
-		this.setState({page: page, isLoading: true});
+		this.setState({ page, isLoading: true });
 		if (this.props.onChange){
 			this.props.onChange(this.state.search, page);
 		}
-		/*this._getData(this.props.query, page, this.state.search).then(data => {
-			self._setData(data);
-		});*/
 	}
 
 	handleCloseError(){
-		this.setState({error: '', isShowError: false});
+		this.setState({ error: '', isShowError: false });
 	}
 
 	render() {
-		const {title, headerCols, pagesCount } = this.props;
-		const {isShowError, isLoading, error, page, search, items, selectedItems } = this.state;
+		const { title, headerCols, pagesCount } = this.props;
+		const { isShowError, isLoading, error, page, search, items, selectedItems } = this.state;
 		const errorClass = cx({
 			'alert': true,
 			'alert--info': true,
@@ -225,26 +179,32 @@ class SelectItems extends React.Component {
 		});
 
 		return (
-			<div className="select-items">
-				<div className="select-items__modal-box">
-					<div className="select-items__content">
-						<div className="select-item__header">
-							<button type="button" className="close-button" onClick={this.props.onClose}>&times;</button>
+			<div className='select-items'>
+				<div className='select-items__modal-box'>
+					<div className='select-items__content'>
+						<div className='select-item__header'>
+							<button type='button' className='close-button' onClick={this.props.onClose}>&times;</button>
 							<span>{title}</span>
 						</div>
-						<div className="select-item__body clearfix">
-							<Filters 
-								page={page} 
+						<div className='select-item__body clearfix'>
+							<Filters
+								page={page}
 								pagesCount={pagesCount}
-								search={search} 
+								search={search}
 								onSearch={this.handleChangeSearch}
-								onPage={this.handleChangePage}/>
-							<Items items={items} selectedItems={selectedItems} headerCols={headerCols} isLoading={isLoading}/>
-							<SelectedItems items = {selectedItems} />
+								onPage={this.handleChangePage}
+							/>
+							<Items
+								items={items}
+								selectedItems={selectedItems}
+								headerCols={headerCols}
+								isLoading={isLoading}
+							/>
+							<SelectedItems items={selectedItems} />
 						</div>
-						<div className="select-item__footer">
+						<div className='select-item__footer'>
 							<div className={errorClass}>
-								<button type="button" className="close-button" onClick={this.handleCloseError}>&times;</button>
+								<button type='button' className='close-button' onClick={this.handleCloseError}>&times;</button>
 								<span>{error}</span>
 							</div>
 							<ButtonPrimary onClick={this.handleSave} text='Сохранить' />
@@ -254,5 +214,27 @@ class SelectItems extends React.Component {
 			</div>
 		);
 	}
-};
+}
+
+SelectItems.childContextTypes = {
+	onSort: React.PropTypes.func,
+	onAddItem: React.PropTypes.func,
+	onRemoveItem: React.PropTypes.func
+}
+
+SelectItems.propTypes = {
+	items: React.PropTypes.array,
+	selectedItems: React.PropTypes.array,
+	maxSelectedItems: React.PropTypes.number,
+	title: React.PropTypes.string,
+	onClose: React.PropTypes.func,
+	onSave: React.PropTypes.func,
+	onChange: React.PropTypes.func
+}
+
+SelectItems.defaultProps = {
+	title: '',
+	maxSelectedItems: Number.MAX_VALUE
+}
+
 export default SelectItems;

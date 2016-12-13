@@ -11,37 +11,30 @@ class SelectOneItem extends React.Component {
 		this.handleShowModal = this.handleShowModal.bind(this);
 		this.handleSave = this.handleSave.bind(this);
 		this.state = {
-			isShowModal: false, 
+			isShowModal: false,
 			selectedItem: props.selectedItem
-		}
-	}
-
-	static propTypes = {
-		modalTitle: React.PropTypes.string,
-		placeholder: React.PropTypes.string,
-		query: React.PropTypes.string,
-		onSave: React.PropTypes.func,
-		selectedItem: React.PropTypes.object
+		};
 	}
 
 	componentWillReceiveProps(nextProps){
-		this.setState({selectedItem: nextProps.selectedItem});
+		this.setState({ selectedItem: nextProps.selectedItem });
 	}
 
 	getModal(){
-		let selectedItem = this.state.selectedItem ? [this.state.selectedItem] : null;
-		return this.state.isShowModal ? 
+		const selectedItem = this.state.selectedItem ? [ this.state.selectedItem ] : null;
+		return this.state.isShowModal ?
 			<SelectItems
 				title={this.props.modalTitle}
 				selectedItems={selectedItem}
 				maxSelectedItems={1}
 				query={this.props.query}
-				onClose={this.handleCloseModal} 
-				onSave={this.handleSave}/> : null;
+				onClose={this.handleCloseModal}
+				onSave={this.handleSave}
+			/> : null;
 	}
 
 	getItemValue(){
-		let data = this.props.selectedItem ? this.props.selectedItem.data: null;
+		const data = this.props.selectedItem ? this.props.selectedItem.data : null;
 		return data ? data[Object.keys(data)[0]] : '';
 	}
 
@@ -57,11 +50,11 @@ class SelectOneItem extends React.Component {
 	}
 
 	handleCloseModal(){
-		this.setState({isShowModal: false});
+		this.setState({ isShowModal: false });
 	}
 
 	handleShowModal(){
-		this.setState({isShowModal: true});
+		this.setState({ isShowModal: true });
 	}
 
 	render() {
@@ -79,20 +72,29 @@ class SelectOneItem extends React.Component {
 			<div className={cx('select-one-item-container', this.props.className)}>
 				<div className='select-one-item'>
 					<input
-						readOnly 
-						className={inputClasses} 
-						type="text" 
+						readOnly
+						className={inputClasses}
+						type='text'
 						value={val}
 						title={val}
-						onClick={this.handleShowModal} 
-						onChange={this.handleChange}/>
-	                <label className="select-one-item__label">{this.props.placeholder}</label>
-	                <i className={iconClasses} onClick={this.handleShowModal}></i>
-	            </div>
-	            {this.getModal()}
+						onClick={this.handleShowModal}
+						onChange={this.handleChange}
+					/>
+					<label className='select-one-item__label'>{this.props.placeholder}</label>
+					<i className={iconClasses} onClick={this.handleShowModal} />
+				</div>
+				{this.getModal()}
 			</div>
 		);
 	}
+}
+
+SelectOneItem.propTypes = {
+	modalTitle: React.PropTypes.string,
+	placeholder: React.PropTypes.string,
+	query: React.PropTypes.string,
+	onSave: React.PropTypes.func,
+	selectedItem: React.PropTypes.object
 };
 
 export default SelectOneItem;
