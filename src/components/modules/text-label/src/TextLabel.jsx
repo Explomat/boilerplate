@@ -6,6 +6,7 @@ require('./style/text-label.scss');
 var TextBase = {
 
 	propTypes: {
+		type: React.PropTypes.string,
 		className: React.PropTypes.string,
 		inputClassName: React.PropTypes.string,
 		focused: React.PropTypes.bool,
@@ -13,12 +14,12 @@ var TextBase = {
 		onBlur: React.PropTypes.func,
 		onClick: React.PropTypes.func,
 		isValid: React.PropTypes.func,
-		notValidClass: React.PropTypes.string,
 		readOnly: React.PropTypes.bool
 	},
 
 	getDefaultProps: function() {
 		return {
+			type: 'text',
 			value: '',
 			placeholder: '',
 			notValidClass: 'input-box__input--not-valid',
@@ -103,7 +104,7 @@ var TextView = React.createClass({
 			<div className={"input-box " + className} tabIndex={1} onBlur={this.handleDetranslate}>
 				<input 
 					ref="inpt" 
-					type="text" 
+					type={this.props.type} 
 					value={this.state.value} 
 					className={"input-box__input " + isNotEmptyClass + " " + isValidClass + " " + inputClassName} 
 					onChange={this.handleChange} 

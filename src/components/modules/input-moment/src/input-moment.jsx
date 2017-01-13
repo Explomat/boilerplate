@@ -1,46 +1,40 @@
-const cx = require('classnames');
-const React = require('react');
-const Calendar = require('./calendar');
-const Time = require('./time');
+import cx from 'classnames';
+import React from 'react';
+import Calendar from'./calendar';
+import Time from'./time';
 
-require('./style/input-moment.scss');
+import './style/input-moment.scss';
 
-module.exports = React.createClass({
-	displayName: 'InputMoment',
-
-	getInitialState() {
-		return {
+class InputMoment extends React.Component {
+	
+	constructor(props){
+		super(props);
+		
+		this.state = {
 			tab: 0,
 			moment: this.props.moment
-		};
-	},
-
-	getDefaultProps() {
-		return {
-			prevMonthIcon: 'icon-left-open-big',
-			nextMonthIcon: 'icon-right-open-big'
-		};
-	},
-
-	componentWillReceiveProps(nextProps){
+		}
+	}
+	
+	componentWillReceiveProps(nextProps) {
 		this.setState({ moment: nextProps.moment });
-	},
+	}
 
-	handleChangeDateTime(moment){
+	handleChangeDateTime(moment) {
 		this.setState({ moment });
-	},
+	}
 
 	handleClickTab(tab, e) {
 		e.preventDefault();
 		this.setState({ tab });
-	},
+	}
 
 	handleSave(e) {
 		e.preventDefault();
 		const m = this.state.moment;
 		if (this.props.onSave) this.props.onSave(m);
-	},
-
+	}
+	
 	render() {
 		const tab = this.state.tab;
 		const m = this.state.moment;
@@ -80,4 +74,11 @@ module.exports = React.createClass({
 			</div>
 		);
 	}
-});
+}
+
+InputMoment.defaultProps = {
+	prevMonthIcon: 'icon-left-open-big',
+	nextMonthIcon: 'icon-right-open-big'
+}
+
+export default InputMoment;

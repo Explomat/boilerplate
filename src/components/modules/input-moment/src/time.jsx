@@ -1,11 +1,22 @@
-const cx = require('classnames');
-const React = require('react');
-const InputSlider = require('react-input-slider');
+import cx from 'classnames';
+import React from 'react';
+import InputSlider from 'react-input-slider';
 
-module.exports = React.createClass({
-	displayName: 'Time',
+class Time extends React.Component {
+	
+	handleChangeHours(pos) {
+		const m = this.props.moment;
+		m.hours(parseInt(pos.x, 10));
+		this.props.onChange(m);
+	}
 
-	render() {
+	handleChangeMinutes(pos) {
+		const m = this.props.moment;
+		m.minutes(parseInt(pos.x, 10) * 5);
+		this.props.onChange(m);
+	}
+	
+	render(){
 		const m = this.props.moment;
 
 		return (
@@ -23,7 +34,7 @@ module.exports = React.createClass({
 						xmin={0}
 						xmax={23}
 						x={m.hour()}
-						onChange={this.changeHours}
+						onChange={this.handleChangeHours}
 					/>
 					<div className='time-text'>Минуты:</div>
 					<InputSlider
@@ -31,22 +42,12 @@ module.exports = React.createClass({
 						xmin={0}
 						xmax={11}
 						x={m.minute() / 5}
-						onChange={this.changeMinutes}
+						onChange={this.handleChangeMinutes}
 					/>
 				</div>
 			</div>
 		);
-	},
-
-	changeHours(pos) {
-		const m = this.props.moment;
-		m.hours(parseInt(pos.x, 10));
-		this.props.onChange(m);
-	},
-
-	changeMinutes(pos) {
-		const m = this.props.moment;
-		m.minutes(parseInt(pos.x, 10) * 5);
-		this.props.onChange(m);
 	}
-});
+}
+
+export default Time;

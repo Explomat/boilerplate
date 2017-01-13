@@ -1,11 +1,9 @@
-const cx = require('classnames');
-const React = require('react');
-const range = require('lodash/range');
-const chunk = require('lodash/chunk');
+import cx from 'classnames';
+import React from 'react';
+import range from 'lodash/range';
+import chunk from 'lodash/chunk';
 
-const Day = React.createClass({
-	displayName: 'Day',
-
+class Day extends React.Component {
 	render() {
 		const i = this.props.i;
 		const w = this.props.w;
@@ -19,11 +17,9 @@ const Day = React.createClass({
 
 		return <td className={cn} {... this.props}>{i}</td>;
 	}
-});
+}
 
-module.exports = React.createClass({
-	displayName: 'Calendar',
-
+class Calendar extends React.Component {
 	render() {
 		const m = this.props.moment;
 		const d = m.date();
@@ -32,10 +28,10 @@ module.exports = React.createClass({
 		const d3 = m.clone().endOf('month').date();
 
 		const days = [].concat(
-      range(d1 - d2 + 1, d1 + 1),
-      range(1, d3 + 1),
-      range(1, 42 - d3 - d2 + 1)
-    );
+			range(d1 - d2 + 1, d1 + 1),
+			range(1, d3 + 1),
+			range(1, 42 - d3 - d2 + 1)
+		);
 
     // var weeks = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 		const weeks = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
@@ -75,7 +71,7 @@ module.exports = React.createClass({
 				</table>
 			</div>
 		);
-	},
+	}
 
 	selectDate(i, w) {
 		const prevMonth = (w === 0 && i > 7);
@@ -87,15 +83,17 @@ module.exports = React.createClass({
 		if (nextMonth) m.add(1, 'month');
 
 		this.props.onChange(m);
-	},
+	}
 
 	prevMonth(e) {
 		e.preventDefault();
 		this.props.onChange(this.props.moment.subtract(1, 'month'));
-	},
+	}
 
 	nextMonth(e) {
 		e.preventDefault();
 		this.props.onChange(this.props.moment.add(1, 'month'));
 	}
-});
+};
+
+export default Calendar;
