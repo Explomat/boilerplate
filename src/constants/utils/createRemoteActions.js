@@ -4,8 +4,8 @@ function createAction(action){
 	const outObj = {};
 	
 	outObj[action] = action;
-	outObj[`${action} + _SUCCESS`] = `${action} + _SUCCESS`;
-	outObj[`${action} + _FAILURE`] = `${action} + _FAILURE`;
+	outObj[`${action}_SUCCESS`] = `${action}_SUCCESS`;
+	outObj[`${action}_FAILURE`] = `${action}_FAILURE`;
 	return outObj;
 }
 

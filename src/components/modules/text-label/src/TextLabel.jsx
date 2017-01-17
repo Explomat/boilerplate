@@ -45,6 +45,16 @@ var TextBase = {
 			this.focus();
 		}
 	},
+	
+	addNotValidClassIfNeeded(val){
+		let value = val || this.state.value;
+		if (!this.props.isValid(value)) {
+			e.target.classList.add(this.props.notValidClass);
+		}
+		else {
+			e.target.classList.remove(this.props.notValidClass);
+		}
+	},
 
 	focus(){
 		var inpt = this.refs.inpt;
@@ -53,12 +63,7 @@ var TextBase = {
 	},
 
 	handleChange: function(e) {
-		if (!this.props.isValid(e.target.value)) {
-			e.target.classList.add(this.props.notValidClass);
-		}
-		else {
-			e.target.classList.remove(this.props.notValidClass);
-		}
+		this.addNotValidClassIfNeeded(e.target.value);
 		var val = e.target.value;
 		this.setState({value: e.target.value});
 		if (this.props.onChange && this.props.isValid(val)) {
@@ -118,10 +123,21 @@ var TextView = React.createClass({
 });
 
 var TextAreaView = React.createClass(assign({}, TextBase, {
+	
+	getInitialState: function(){
+		var baseObject = TextBase.getInitialState.call(this);
+		baseObject.height = 0;
+		return baseObject;
+	},
 
 	componentWillReceiveProps: function(nextProps){
 		this.setState({value: nextProps.value});
 		this._setHeight();
+	},
+	
+	componentDidMount: function(){
+		TextBase.componentDidMount.call(this);
+		this.setState({height: this.refs.hiddenBlock.offsetHeight});
 	},
 
 	_setHeight(){
@@ -145,18 +161,7 @@ var TextAreaView = React.createClass(assign({}, TextBase, {
 		this.refs.lbl.classList.remove('textarea-box__label_translate');
 		this.refs.lbl.classList.add('textarea-box__label_detranslate');
 	},
-
-	componentDidMount: function(){
-		TextBase.componentDidMount.call(this);
-		this.setState({height: this.refs.hiddenBlock.offsetHeight});
-	},
-
-	getInitialState: function(){
-		var baseObject = TextBase.getInitialState.call(this);
-		baseObject.height = 0;
-		return baseObject;
-	},
-
+	
 	render: function() {
 		var isNotEmptyClass = this.state.value === '' ? '' : 'textarea-box__input_not-empty';
 		var isValidClass = !this.props.isValid(this.state.value) ? this.validClass : '';

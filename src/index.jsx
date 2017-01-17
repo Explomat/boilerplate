@@ -1,5 +1,3 @@
-import 'babel-polyfill';
-import './styles';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, hashHistory } from 'react-router';
@@ -10,6 +8,9 @@ import { getAccess } from './actions';
 import thunk from 'redux-thunk';
 import App from './containers/App';
 import config from './config';
+
+import 'babel-polyfill';
+import './styles';
 
 const store = createStore(
   reducers,
