@@ -3,11 +3,11 @@ import cx from 'classnames';
 
 import './style/alert.scss';
 
-export const Alert = ({ text, className, onClose, ...props }) => {
+export const Alert = ({ text, className, isClose, onClose, ...props }) => {
 	const classes = cx('alert', className);
 	return (
 		<div className={classes} {...props}>
-			<button type='button' className='close-button' onClick={onClose}>&times;</button>
+			{isClose && <button type='button' className='close-button' onClick={onClose}>&times;</button>}
 			{text}
 		</div>
 	);
@@ -33,8 +33,14 @@ export const AlertDanger = ({ className, ...props }) => {
 	return <Alert {...props} className={classes}/>;
 };
 
+Alert.defaultProps = {
+	text: '',
+	isClose: true
+}
+
 Alert.propTypes = {
 	text: React.PropTypes.string.isRequired,
 	onClose: React.PropTypes.func,
-	className: React.PropTypes.string
+	className: React.PropTypes.string,
+	isClose: React.PropTypes.bool
 };
