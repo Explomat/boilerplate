@@ -21,12 +21,6 @@ class SearchBar extends React.Component {
 		this.setState({ value: e.target.value });
 	}
 
-	handleblur(e){
-		if (this.props.onSearch && this.state.value !== this.props.value){
-			this.props.onSearch(e.target.value);
-		}
-	}
-
 	handleSearch(e){
 		if (e.keyCode === 13 && this.props.onSearch){
 			this.props.onSearch(e.target.value);
@@ -40,7 +34,6 @@ class SearchBar extends React.Component {
 			<div className={`search-box ${  className}`}>
 				<input
 					onChange={this.handleChange}
-					onBlur={this.handleblur}
 					onKeyDown={this.handleSearch}
 					className={`search-box__search-input ${  classNameInput}`}
 					type='text' value={this.state.value}

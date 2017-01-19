@@ -32,7 +32,7 @@ function getCacheRequest(url){
 		cache = {};
 		return;
 	}
-	return cache[url];
+	return cache[encodeURI(url)];
 }
 
 function sendRequest(url, data, isCache, requestType){
