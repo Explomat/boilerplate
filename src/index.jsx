@@ -9,6 +9,7 @@ import thunk from 'redux-thunk';
 import App from './containers/App';
 import config from './config';
 
+import 'classlist-polyfill';
 import 'babel-polyfill';
 import './styles';
 

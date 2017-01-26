@@ -71,8 +71,8 @@ module.exports = {
             filename: 'react.js'
         }),
         new webpack.DefinePlugin({
-          "process.env": { 
-             NODE_ENV: JSON.stringify("production") 
+          "process.env": {
+             NODE_ENV: JSON.stringify("production")
            }
         }),
         new ExtractTextPlugin('style/style.min.css', { allChunks: true }),
