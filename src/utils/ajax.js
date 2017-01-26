@@ -1,4 +1,3 @@
-import env from '../env';
 const AJAX_TIME_OVER = 15000;
 const CACHE_MAX_REQUESTS = 30;
 let cache = {};
@@ -18,7 +17,7 @@ function getXmlHttp(){
 		xmlHttp = new XMLHttpRequest();
 	}
 	if (xmlHttp.withCredentials !== undefined){
-		xmlHttp.withCredentials = env !== 'production';
+		xmlHttp.withCredentials = process.env.NODE_ENV !== 'production';
 	}
 	return xmlHttp;
 }

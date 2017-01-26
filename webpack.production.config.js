@@ -65,15 +65,13 @@ module.exports = {
     },
 
     plugins: [
+    	new webpack.DefinePlugin({
+	      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+	    }),
         new webpack.NoErrorsPlugin(),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'react',
             filename: 'react.js'
-        }),
-        new webpack.DefinePlugin({
-          "process.env": {
-             NODE_ENV: JSON.stringify("production")
-           }
         }),
         new ExtractTextPlugin('style/style.min.css', { allChunks: true }),
         new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /ru/),

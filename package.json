@@ -3,10 +3,10 @@
   "description": "boilerplate",
   "author": "Author",
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register --require ./test/testHelper.js  --recursive",
+	"test": "mocha --compilers js:babel-core/register --require ./test/testHelper.js  --recursive",
     "test:watch": "npm run test -- --watch",
-    "set-prod": "set NODE_ENV=production && node environment.js > src/env.js",
-    "set-dev": "set NODE_ENV=development && node environment.js > src/env.js",
+    "set-prod": "set NODE_ENV=production",
+    "set-dev": "set NODE_ENV=development",
     "start-dev-server": "npm run set-dev && webpack-dev-server",
     "development": "npm run set-dev && webpack --config webpack.config.js",
     "production": "npm run set-prod && webpack --config webpack.production.config.js && node pindex.js && npm run set-dev"
