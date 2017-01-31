@@ -45,7 +45,8 @@ class DropDown extends React.Component {
 
 	static propTypes = {
 		items: React.PropTypes.array.isRequired, // [{ payload: 1, text: 'Test' },{...}]
-		// icons: React.PropTypes.array, //Количество такое же как и items. Payload должен совпадать с payload item. [ payload: 1, iconClass: icon-class ]
+		// icons: React.PropTypes.array,
+		// Количество такое же как и items. Payload должен совпадать с payload item. [ payload: 1, iconClass: icon-class ]
 		onChange: React.PropTypes.func,
 		deviders: React.PropTypes.array, // указать индексы элементов после которых вставлять разделители
 		selectedPayload: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
@@ -65,33 +66,12 @@ class DropDown extends React.Component {
 		display: false
 	}
 
-	_getSelectedItemText(items, payload){
-		if (!payload && this.props.description) return this.props.description;
-		if (!payload && Array.isArray(items) && items.length > 0) return items[0].text;
-		for (let i = items.length - 1; i >= 0; i--) {
-			if (items[i].payload.toString() === payload.toString())				{
-				return items[i].text;
-			}
-		}
-		return null;
-	}
-
-	_stopPropagation(e){
-		if (!e || (!e.stopPropagation && !e.nativeEvent)) return;
-		e.stopPropagation();
-    	e.nativeEvent.stopImmediatePropagation();
-	}
-
-	_unmountComponent(){
-		document.removeEventListener('click', ::this.handleBlur);
-	}
-
-	componentWillUnmount() {
-		this._unmountComponent();
-	}
-
 	componentDidMount() {
 		document.addEventListener('click', ::this.handleBlur, true);
+	}
+	
+	componentWillUnmount() {
+		this._unmountComponent();
 	}
 
 	handleChange(e, payload, text, index) {
@@ -121,22 +101,46 @@ class DropDown extends React.Component {
 			if (index !== 0 && this.props.deviders.indexOf(index) !== -1){
 				list.push(<li key={`divider${ index  }${1}`} className='dropdown-list__devider' />);
 			}
-			const selected = this.props.selectedPayload == item.payload;
-			list.push(<Item
-  key={index + 1}
-  selected={selected}
-  text={item.text}
-  payload={item.payload}
-  onChange={::this.handleChange}
-  index={index}
-			          />);
+			const selected = this.props.selectedPayload.toString() === item.payload.toString();
+			list.push(
+				<Item
+					key={index + 1}
+					selected={selected}
+					text={item.text}
+					payload={item.payload}
+					onChange={::this.handleChange}
+					index={index}
+				/>);
 		});
 		return list;
+	}
+	
+	_stopPropagation(e){
+		if (!e || (!e.stopPropagation && !e.nativeEvent)) return;
+		e.stopPropagation();
+		e.nativeEvent.stopImmediatePropagation();
+	}
+
+	_unmountComponent(){
+		document.removeEventListener('click', ::this.handleBlur);
+	}
+	
+	_getSelectedItemText(items, payload){
+		if (!payload && this.props.description) return this.props.description;
+		if (!payload && Array.isArray(items) && items.length > 0) return items[0].text;
+		for (let i = items.length - 1; i >= 0; i--) {
+			if (items[i].payload.toString() === payload.toString()){
+				return items[i].text;
+			}
+		}
+		return null;
 	}
 
 	render() {
 		const classes = cx('dropdown-box', this.props.className);
-		const classesChild = cx({ 'dropdown-list': true, 'dropdown-list--display': this.state.display }, this.props.classNameChild);
+		const classesChild = cx({
+			'dropdown-list': true,
+			'dropdown-list--display': this.state.display }, this.props.classNameChild);
 		const classesButton = cx('dropdown-box__default-item', this.props.classNameButton);
 
 		const classesTitle = cx({

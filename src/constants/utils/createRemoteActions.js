@@ -15,7 +15,7 @@ export default function createRemoteActions(actions){
 	}
 	let outObj = {};
 	
-	actions.map(action => {
+	actions.forEach(action => {
 		const reducedAction = createAction(action);
 		outObj = merge(outObj, reducedAction);
 	});
