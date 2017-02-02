@@ -114,6 +114,19 @@
     }
 }
 
+//точка
+.bullet {
+	padding: 0 4px;
+    color: #c2c6cc;
+    line-height: 1.4;
+}
+
+.no-link{
+	color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 .clearfix:after {
   content: "";
   display: table;
