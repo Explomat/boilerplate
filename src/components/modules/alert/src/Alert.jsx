@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import cx from 'classnames';
 
 import './style/alert.scss';
@@ -36,7 +36,7 @@ export const AlertDanger = ({ className, ...props }) => {
 Alert.defaultProps = {
 	text: '',
 	isClose: true
-}
+};
 
 Alert.propTypes = {
 	text: React.PropTypes.string.isRequired,

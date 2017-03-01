@@ -16,35 +16,15 @@ class _DropDownIcon extends React.Component {
 	}
 
 	getChildContext(){
-    	return {
-    		onToggle: ::this.handleToggleDisplay
-    	};
-  	}
-
-  	componentDidMount(){
-  		this.isRightBoundOverflow = this._isRightBoundOverflow();
-  	}
-
-  	_isRightBoundOverflow(){
-  		const listContainer = this.refs.listContainer;
-  		const list = this.refs.list;
-
-  		const listContainerLeftBound = listContainer.getBoundingClientRect().left;
-  		const listWidth = list.offsetWidth;
-  		const windowWidth = window.innerWidth;
-  		return listContainerLeftBound + listWidth >= windowWidth;
-  	}
-
-  	_isChildren(children){
-  		return Array.isArray(children) ? children.length > 0 : (children !== null || children !== undefined);
-  	}
-
-	_stopPropagation(e){
-		if (!e || (!e.stopPropagation && !e.nativeEvent)) return;
-		e.stopPropagation();
-    	e.nativeEvent.stopImmediatePropagation();
+		return {
+			onToggle: ::this.handleToggleDisplay
+		};
 	}
 
+	componentDidMount(){
+		this.isRightBoundOverflow = this._isRightBoundOverflow();
+	}
+	
 	handleClickOutside() {
 		this.setState({ display: false });
 	}
@@ -54,6 +34,26 @@ class _DropDownIcon extends React.Component {
 		if (this._isChildren()) {
 			this.setState({ display: !this.state.display });
 		}
+	}
+	
+	_isRightBoundOverflow(){
+		const listContainer = this.refs.listContainer;
+		const list = this.refs.list;
+
+		const listContainerLeftBound = listContainer.getBoundingClientRect().left;
+		const listWidth = list.offsetWidth;
+		const windowWidth = window.innerWidth;
+		return listContainerLeftBound + listWidth >= windowWidth;
+	}
+
+	_isChildren(children){
+		return Array.isArray(children) ? children.length > 0 : (children !== null || children !== undefined);
+	}
+
+	_stopPropagation(e){
+		if (!e || (!e.stopPropagation && !e.nativeEvent)) return;
+		e.stopPropagation();
+		e.nativeEvent.stopImmediatePropagation();
 	}
 
 	render() {

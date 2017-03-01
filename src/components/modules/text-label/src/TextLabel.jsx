@@ -54,6 +54,10 @@ const TextBase = {
 			this.refs.inpt.classList.remove(this.props.notValidClass);
 		}
 	},
+	
+	getValue(){
+		return this.refs.inpt.value;
+	},
 
 	focus(){
 		const inpt = this.refs.inpt;
@@ -132,8 +136,10 @@ const TextAreaView = React.createClass(assign({}, TextBase, {
 	},
 
 	componentWillReceiveProps(nextProps){
-		this.setState({ value: nextProps.value });
-		this._setHeight();
+		if (this.props.value !== nextProps.value) {
+			this.setState({ value: nextProps.value });
+			this._setHeight();
+		}
 	},
 	
 	componentDidMount(){

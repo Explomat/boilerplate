@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 import app from './app';
-import first from './first';
+import testsData from './testsData';
+import test from './test';
 
 export default combineReducers({
 	app,
-	first
+	testsData,
+	test
 });
