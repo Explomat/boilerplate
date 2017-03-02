@@ -17,8 +17,8 @@ const SearchBarCount = ({ firstValue, secondValue, ...props }) => {
 };
 
 SearchBarCount.propTypes = {
-	firstValue: React.PropTypes.string,
-	secondValue: React.PropTypes.string
+	firstValue: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
+	secondValue: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number])
 };
 
 export default SearchBarCount;
