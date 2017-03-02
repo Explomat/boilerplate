@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import TestsList from '../components/TestsList';
-import SearchBar from '../components/modules/search-bar';
+import SearchBarCount from '../components/modules/search-bar-count';
 import { DropDownIcon, DropDownIconItem } from '../components/modules/dropdown-icon';
 import * as actionCreators from '../actions';
 import { connect } from 'react-redux';
@@ -86,13 +86,12 @@ class TestsListContainer extends Component {
 				<div className='tests-container__header'>
 					<div className='tests-container__filters'>
 						<div className='tests-container__search-bar-container'>
-							<SearchBar
+							<SearchBarCount
+								firstValue={curCount}
+								secondValue={allCount}
 								onSearch={this.handleSearch}
 								value={search}
-								className='tests-container__search-bar'
-							>
-								<span className='tests-container__vacancys-count'>{curCount} / {allCount}</span>
-							</SearchBar>
+							/>
 						</div>
 						<div className='tests-container__filters'>
 							<DropDownIcon
