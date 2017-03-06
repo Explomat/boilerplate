@@ -106,7 +106,7 @@ const TextView = React.createClass({
 
 	render() {
 		const isNotEmptyClass = this.state.value === '' ? '' : 'input-box__input_not-empty';
-		const isValidClass = !this.props.isValid(this.state.value).bind(this) ? this.props.notValidClass : '';
+		const isValidClass = !this.props.isValid(this.state.value) ? this.props.notValidClass : '';
 		const className = this.props.className ? this.props.className : '';
 		const inputClassName = this.props.inputClassName ? this.props.inputClassName : '';
 		return (

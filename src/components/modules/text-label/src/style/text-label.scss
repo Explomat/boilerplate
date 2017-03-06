@@ -9,6 +9,7 @@ $fontSizeXs: 12px;
 .textarea-box{
     position: relative;
     outline: 0;
+    margin-bottom: 16px;
 
     .textarea-box__hidden-block {
         white-space: pre-wrap;
@@ -71,6 +72,7 @@ $fontSizeXs: 12px;
 @mixin input-box {
     position: relative;
     outline: 0;
+    margin-bottom: 16px;
 }
 
 @mixin input-box__input {

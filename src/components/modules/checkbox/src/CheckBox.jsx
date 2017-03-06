@@ -3,30 +3,43 @@ import cx from 'classnames';
 import './style/checkbox.scss';
 
 class CheckBox extends React.Component {
+	
+	constructor(props){
+		super(props);
+		
+		this.handleToggleChecked = this.handleToggleChecked.bind(this);
+		this.state = {
+			checked: props.checked || false
+		};
+	}
 
 	handleToggleChecked(e){
 		e.stopPropagation();
-    	e.nativeEvent.stopImmediatePropagation();
-    	
+		e.nativeEvent.stopImmediatePropagation();
+		
+		const newState = !this.state.checked;
+		this.setState({ checked: newState });
 		if (this.props.onChange){
-			this.props.onChange(!this.props.checked);
+			this.props.onChange(newState);
 		}
 	}
 
 	render() {
 		const classes = cx({
-			'checkbox-box': true
+			'md-checkbox': true
 		}, this.props.className);
 
 		const checkboxIconClasses = cx({
-			'checkbox-box__icon': true,
-			'checkbox-box__icon--checked': this.props.checked
+			'md-icon': true,
+			'md-icon--checked': this.state.checked
 		});
 		return (
-			<div className={classes} onClick={::this.handleToggleChecked}>
-				<div className='checkbox-box__container'>
+			<div className={classes} onClick={this.handleToggleChecked}>
+				<div className='md-container'>
 					<div className={checkboxIconClasses} />
-					<div className='checkbox-box__label'>{this.props.label}</div>
+				</div>
+				<div className='md-label'>
+					<span>{this.props.label}</span>
 				</div>
 			</div>
 		);

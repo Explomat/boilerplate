@@ -76,10 +76,7 @@ function filterTests(tests, search, page, order){
 
 function mockTests(){
 	const MAX_TESTS_COUNT = getRandomArbitrary(1, 31);
-	const MAX_SECTIONS_COUNT = getRandomArbitrary(1, 5);
-	const MAX_QUESTIONS_COUNT = getRandomArbitrary(1, 6);
-	const MAX_ANSWERS_COUNT = getRandomArbitrary(1, 7);
-	
+
 	const tests = [];
 	for (let i = 0; i < MAX_TESTS_COUNT; i++) {
 		const test = {
@@ -88,6 +85,7 @@ function mockTests(){
 		};
 		tests.push(test);
 		
+		const MAX_SECTIONS_COUNT = getRandomArbitrary(1, 5);
 		const sections = [];
 		for (let j = 0; j < MAX_SECTIONS_COUNT; j++){
 			const section = {
@@ -99,6 +97,7 @@ function mockTests(){
 			sections.push(section);
 			test.sections = sections;
 			
+			const MAX_QUESTIONS_COUNT = getRandomArbitrary(1, 6);
 			const questions = [];
 			for (let k = 0; k < MAX_QUESTIONS_COUNT; k++){
 				const question = {
@@ -113,6 +112,7 @@ function mockTests(){
 				questions.push(question);
 				section.questions = questions;
 				
+				const MAX_ANSWERS_COUNT = getRandomArbitrary(1, 7);
 				const answers = [];
 				for (let p = 0; p < MAX_ANSWERS_COUNT; p++){
 					const answer = {
@@ -125,7 +125,7 @@ function mockTests(){
 						}
 					};
 					answers.push(answer);
-					section.answers = answers;
+					question.answers = answers;
 				}
 			}
 		}

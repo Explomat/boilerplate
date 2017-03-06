@@ -5,7 +5,7 @@ import './style/dropdown.scss';
 class ItemReset extends React.Component {
 
 	handleReset(e) {
-		if (this.props.onReset)			{
+		if (this.props.onReset) {
 			this.props.onReset(e);
 		}
 	}
@@ -44,6 +44,7 @@ class Item extends React.Component {
 class DropDown extends React.Component {
 
 	static propTypes = {
+		title: React.PropTypes.string,
 		items: React.PropTypes.array.isRequired, // [{ payload: 1, text: 'Test' },{...}]
 		// icons: React.PropTypes.array,
 		// Количество такое же как и items. Payload должен совпадать с payload item. [ payload: 1, iconClass: icon-class ]
@@ -151,13 +152,12 @@ class DropDown extends React.Component {
 		const selectedText = this._getSelectedItemText(this.props.items, this.props.selectedPayload);
 		return (
 			<div className={classes}>
+				{this.props.title && <span className='dropdown-box__mtitle'>{this.props.title}</span>}
 				<button className={classesButton} type='button' onClick={::this.handleToggleDisplay}>
 					<span className={classesTitle}>{selectedText}</span>
 					<span className='dropdown-box__caret dropdown-box__caret--display' />
 				</button>
-				<div className='dropdown-box__container'>
-					<ul className={classesChild}>{list}</ul>
-				</div>
+				<ul className={classesChild}>{list}</ul>
 			</div>
 		);
 	}

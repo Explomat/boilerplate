@@ -1,8 +1,15 @@
 .dropdown-box {
     position: relative;
-    display: inline-block;
+    display: block;
     vertical-align: middle;
     font-size: inherit;
+    margin-bottom: 16px;
+    
+    .dropdown-box__mtitle{
+    	color: #727272;
+	    font-size: 12px;
+	    font-weight: 700
+    }
 
     .dropdown-box__default-item {
         cursor: pointer;

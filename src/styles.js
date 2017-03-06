@@ -1,4 +1,5 @@
 import '../style/common.scss';
+import '../style/bootstrap-grid.css';
 
 import '../style/icon-font.css';
 import '../fonts/icon-font.eot';

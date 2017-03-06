@@ -19,3 +19,7 @@ export function validateLogin(str){
 	var re = /^[a-zA-Z0-9]+$/;
 	return re.test(str);
 }
+
+export function validateTime(time){
+	return /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/.test(time);
+}

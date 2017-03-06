@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Test from '../components/Test';
+import Test from '../components/test/Test';
 import * as actionCreators from '../actions';
 import { connect } from 'react-redux';
 

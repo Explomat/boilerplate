@@ -1,71 +1,92 @@
-const React = require('react');
-const TextView = require('../../text-label').TextView;
-const InputMoment = require('../../input-moment');
-const cx = require('classnames');
-const clickOutSide = require('react-onclickoutside');
+import React, { Component, PropTypes } from 'react';
+import { TextView } from '../../text-label';
+import InputMoment from '../../input-moment';
+import cx from 'classnames';
+import clickOutSide from 'react-onclickoutside';
 
-const moment  = require('moment');
+import moment from 'moment';
 moment.locale('ru');
 
-require('./style/input-calendar.scss');
+import './style/input-calendar.scss';
 
-module.exports = React.createClass({
-	displayName: 'InputCalendar',
-
-	mixins: [ clickOutSide ],
-
-	propTypes: {
-		className: React.PropTypes.string,
-		placeholder: React.PropTypes.string,
-		date: React.PropTypes.object,
-		onChange: React.PropTypes.func,
-		onSave: React.PropTypes.func,
-		prevMonthIcon: React.PropTypes.string,
-		nextMonthIcon: React.PropTypes.string
-	},
-
-	getInitialState(){
-		return {
+class InputCalendar extends Component {
+	
+	constructor(props){
+		super(props);
+		
+		this.state = {
 			isShow: false
 		};
-	},
-
+		
+		this.handleToogle = this.handleToogle.bind(this);
+		this.handleClickOutside = this.handleClickOutside.bind(this);
+		this.handleSave = this.handleSave.bind(this);
+	}
+	
 	handleToogle(){
 		this.setState({ isShow: !this.state.isShow });
-	},
+	}
 
 	handleClickOutside() {
 		this.setState({ isShow: false });
-	},
+	}
 
 	handleSave(_moment){
 		this.handleToogle();
 		if (this.props.onSave){
 			this.props.onSave(_moment.format());
 		}
-	},
-
+	}
+	
 	render() {
+		const { isShow } = this.state;
+		const { className, placeholder, date, prevMonthIcon, nextMonthIcon } = this.props;
+		const { displayDate, displayTime } = this.props;
+		const dateTimeValue = displayDate && displayTime ? moment(date).format('llll')
+								: displayDate ? moment(date).format('MMMM Do YYYY')
+								: displayTime ? moment(date).format('hh:mm')
+								: moment(new Date()).format('llll');
 		return (
-			<div className={cx('input-calendar', this.props.className)}>
+			<div className={cx('input-calendar', className)}>
 				<TextView
 					onClick={this.handleToogle}
 					inputClassName='input-calendar__date'
-					value={moment(this.props.date).format('llll')}
-					placeholder={this.props.placeholder}
+					value={dateTimeValue}
+					placeholder={placeholder}
 					readOnly
 				/>
 				<i className='icon-calendar input-calendar__icon' onClick={this.handleToogle} />
-				<div className={cx({ 'input-calendar__calendar': true, 'input-calendar__calendar--show': this.state.isShow })}>
+				<div className={cx({ 'input-calendar__calendar': true, 'input-calendar__calendar--show': isShow })}>
 					<InputMoment
-						moment={moment(this.props.date)}
+						moment={moment(date)}
 						onChange={this.props.onChange}
 						onSave={this.handleSave}
-						prevMonthIcon={this.props.prevMonthIcon}
-						nextMonthIcon={this.props.nextMonthIcon}
+						prevMonthIcon={prevMonthIcon}
+						nextMonthIcon={nextMonthIcon}
+						displayDate={displayDate}
+						displayTime={displayTime}
 					/>
 				</div>
 			</div>
 		);
 	}
-});
+}
+
+InputCalendar.defaultProps = {
+	displayDate: true,
+	displayTime: true
+};
+
+InputCalendar.propTypes = {
+	displayDate: PropTypes.bool,
+	displayTime: PropTypes.bool,
+	className: PropTypes.string,
+	placeholder: PropTypes.string,
+	date: PropTypes.instanceOf(moment.fn.constructor),
+	onChange: PropTypes.func,
+	onSave: PropTypes.func,
+	prevMonthIcon: PropTypes.string,
+	nextMonthIcon: PropTypes.string
+};
+
+export default clickOutSide(InputCalendar);
