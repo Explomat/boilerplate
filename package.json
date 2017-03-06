@@ -1,6 +1,6 @@
 {
-  "name": "boilerplate",
-  "description": "boilerplate",
+  "name": "mytests",
+  "description": "mytests",
   "author": "Matveev Savva",
   "scripts": {
     "test": "mocha --compilers js:babel-core/register --require ./test/testHelper.js  --recursive",

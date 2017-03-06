@@ -59,7 +59,7 @@ class TestsListContainer extends Component {
 		
 		const { isFetchingScroll, search, page, pages_count, order } = this.props;
 		if (scrollHeight - (clientHeight + offset) < 100 && !isFetchingScroll && (page + 1) <= pages_count) {
-			this.props.getVacanciesOnScroll(search, page + 1, order);
+			this.props.getTestsOnScroll(search, page + 1, order);
 		}
 	}
 	
@@ -120,17 +120,17 @@ class TestsListContainer extends Component {
 							<CastComponent
 								onSave={val => console.log(val)}
 								type='date'
-								title='Date'
+								placeholder='Date'
 							/>
 							<CastComponent
 								onSave={val => console.log(val)}
 								type='time'
-								title='Time'
+								placeholder='Time'
 							/>
 							<CastComponent
 								onSave={val => console.log(val)}
 								type='datetime'
-								title='Datetime'
+								placeholder='Datetime'
 							/>
 						</div>
 					</div>
