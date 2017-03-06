@@ -18,7 +18,7 @@ class InputMoment extends Component {
 		const { displayDate, displayTime } = props;
 		this.displayDateAndTime = displayDate && displayTime;
 		this.state = {
-			tab: this.displayDateAndTime ? 0 : (displayDate && !displayTime) ? 0 : 1,
+			tab: this.displayDateAndTime ? 0 : displayDate ? 0 : 1,
 			moment: props.moment
 		};
 	}
