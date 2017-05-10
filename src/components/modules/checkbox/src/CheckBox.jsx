@@ -23,7 +23,9 @@ class CheckBox extends React.Component {
 	handleToggleChecked(e){
 		e.stopPropagation();
 		e.nativeEvent.stopImmediatePropagation();
-		
+		if (this.props.disabled){
+			return;
+		}
 		const newState = !this.state.checked;
 		this.setState({ checked: newState });
 		if (this.props.onChange){
@@ -38,6 +40,7 @@ class CheckBox extends React.Component {
 
 		const checkboxIconClasses = cx({
 			'md-icon': true,
+			'md-icon--disabled': this.props.disabled,
 			'md-icon--checked': this.state.checked
 		});
 		return (
@@ -56,6 +59,7 @@ class CheckBox extends React.Component {
 CheckBox.PropTypes = {
 	checked: React.PropTypes.bool,
 	label: React.PropTypes.string,
+	disabled: React.PropTypes.bool,
 	onChange: React.PropTypes.func,
 	className: React.PropTypes.string
 };

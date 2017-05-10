@@ -14,7 +14,7 @@ export const Panel = ({ className, ...props }) => {
 
 export const PanelTitle = ({ className, ...props }) => {
 	return (
-		<h1
+		<h2
 			{...props}
 			className={cx('panel-title', className)}
 		/>

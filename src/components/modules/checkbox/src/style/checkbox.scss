@@ -64,6 +64,11 @@
 		    border-radius: 2px;
 		    color: #444;
 		    
+		    &.md-icon--disabled {
+		    	background-color: #ccc;
+    			border: 2px solid #9b9b9b;
+		    }
+		    
 		    &.md-icon--checked {
 		    	background-color: #4CAF50;
                 border: none;

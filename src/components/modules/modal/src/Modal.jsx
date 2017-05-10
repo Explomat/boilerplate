@@ -9,10 +9,10 @@ class Modal extends Component {
 	
 	render(){
 		const { title, footerButtonText, className } = this.props;
-		const classes = cx('modal', className);
+		const classes = cx('modal-dialog', className);
 		return (
-			<div className={classes}>
-				<div className='modal-dialog'>
+			<div className='modal'>
+				<div className={classes}>
 					<button
 						type='button'
 						className='close-button close-button--modal'
