@@ -1,7 +1,6 @@
-// import { get } from '../utils/ajax';
-// import { url } from '../config';
+//import { get } from '../utils/ajax';
+//import { url } from '../config';
 import constants from '../constants';
-// import error from './error';
 
 export function getAccess(){
 	return dispatch => {
@@ -13,7 +12,7 @@ export function getAccess(){
 				response: { access: true }
 			});
 		}, 300);
-		/* const path = url.createPath({ server_name: 'mytests', action_name: 'Access' });
+		/*const path = url.createPath({ server_name: 'assessment', action_name: 'Access' });
 		get(path)
 		.then(resp => JSON.parse(resp))
 		.then(data => {
@@ -26,5 +25,19 @@ export function getAccess(){
 		.catch(e => {
 			dispatch(error(e.message));
 		});*/
+	};
+}
+
+export function error(err){
+	return {
+		type: constants.APP_ERROR_MESSAGE,
+		errorMessage: err
+	};
+}
+
+export function info(inf){
+	return {
+		type: constants.APP_INFO_MESSAGE,
+		infoMessage: inf
 	};
 }

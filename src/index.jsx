@@ -1,36 +1,34 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import reducers from './reducers';
-import { getAccess } from './actions';
 import thunk from 'redux-thunk';
-import logMiddleware from './middleware/logMiddleware';
+import { createLogger } from 'redux-logger';
 import AppContainer from './containers/AppContainer';
-import TestsListContainer from './containers/TestsListContainer';
-import TestContainer from './containers/TestContainer';
+import AssessmentContainer from './containers/AssessmentContainer';
 import { dom } from './config';
+import moment from 'moment';
+moment.locale('ru');
 
 import 'classlist-polyfill';
 import 'babel-polyfill';
 import './styles';
 
+const middleware = process.env.NODE_ENV === 'production' ?
+  [ thunk ] :
+  [thunk, createLogger()];
+
 const store = createStore(
   reducers,
-  applyMiddleware(thunk, logMiddleware)
+  applyMiddleware(...middleware)
 );
-
-store.dispatch(getAccess());
 
 ReactDOM.render(
 	<Provider store={store}>
-		<Router history={hashHistory}>
-			<Route path='/' component={AppContainer}>
-				<IndexRoute component={TestsListContainer} />
-				<Route path='/tests/:testId' component={TestContainer} />
-			</Route>
-		</Router>
+		<AppContainer>
+			<AssessmentContainer />
+		</AppContainer>
 	</Provider>,
 	document.getElementById(dom.appId)
 );

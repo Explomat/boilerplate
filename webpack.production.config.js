@@ -10,7 +10,7 @@ module.exports = {
     },
     devtool: 'source-map',
     output: {
-        path: project.remotePath,
+        path: project.localPath,
         publicPath: '/',
         filename: 'bundle.js',
         library: '[name]'   
@@ -36,7 +36,7 @@ module.exports = {
             },
             { 
                 test: /\.(ttf|eot|svg)(\?)?(\d+)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, 
-                loader: 'file?name=fonts/[name].[ext]&limit=65000"'
+                loader: 'file?name=fonts/[name].[ext]&limit=65000'
             },
             {
                 test: /\.css$/,

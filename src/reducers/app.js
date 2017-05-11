@@ -1,33 +1,37 @@
 import constants from '../constants';
 import { setSuccess, setFailure } from './utils/setState';
-import assign from 'lodash/assign';
 
-function isError(state = null, action) {
-	const { error } = action;
-	if (error) {
-		return action.error;
-	}
-	return null;
-}
-
-export default function myapp(state = {
-	title: 'Тесты',
-	access: false,
+export default function app(state = {
+	title: '',
+	access: true,
 	isFetching: false,
-	errorMessage: null
+	errorMessage: null,
+	infoMessage: null
 }, action) {
 	switch (action.type) {
 		case constants.APP_GET_ACCESS:
-			return assign({}, state, { isFetching: true });
+			return {
+				...state,
+				isFetching: true
+			};
 		case constants.APP_GET_ACCESS_FAILURE:
 			return setFailure(state, action.error, 'error', 'isFetching');
 		case constants.APP_GET_ACCESS_SUCCESS:
 			return setSuccess(state, action.response, 'error', 'isFetching');
 			
 		case constants.APP_ERROR_MESSAGE:
-			return assign({}, state, { isFetching: false, errorMessage: isError(state.errorMessage, action) });
-		case constants.APP_CHANGE_TITLE:
-			return assign({}, state, { title: action.title });
+			return {
+				...state,
+				isFetching: false,
+				errorMessage: action.errorMessage
+			};
+		case constants.APP_INFO_MESSAGE:
+			return {
+				...state,
+				isFetching: false,
+				infoMessage: action.infoMessage
+			};
+		
 		default:
 			return state;
 	}

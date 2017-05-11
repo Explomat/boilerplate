@@ -1,17 +1,21 @@
-import keyMirror from 'keyMirror';
+import keyMirror from 'keymirror';
 import createRemoteActions from './utils/createRemoteActions';
 import merge from 'lodash/merge';
 
 const remoteConstants = createRemoteActions([
+	'APP_ERROR_MESSAGE',
+	'APP_INFO_MESSAGE',
 	'APP_GET_ACCESS',
-	'TESTS_GET_TESTS',
-	'TESTS_GET_TESTS_ON_SCROLL',
-	'TESTS_GET_TEST'
+	'ASSESSMENT_GET_DATA',
+	'ASSESSMENT_REMOVE_TASKS',
+	'ASSESSMENT_ADD_TASK',
+	'ASSESSMENT_EDIT_TASK',
+	'ASSESSMENT_ACTIVATE_TEST'
 ]);
 
 const constants = keyMirror({
-	'APP_CHANGE_TITLE': null,
-	'APP_ERROR_MESSAGE': null
+	'ASSESSMENT_UPDATE_CALCS_IN_PA': null,
+	'ASSESSMENT_TOGGLE_SELECT_TASK': null
 });
 
 export default merge(remoteConstants, constants);

@@ -1,7 +1,21 @@
 
+.container {
+    width: auto !important;
+}
+
+#wt-zone-main {
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+}
+
+#wt-zone-right {
+    display: none !important;
+}
+
 .app {
     font-family: Circular,"Helvetica Neue",Helvetica,Arial,sans-serif;
-
+    position: relative;
+    
     html, body, div, span, applet, object, iframe,
     h1, h2, h3, h4, h5, h6, p, blockquote, pre,
     a, abbr, acronym, address, big, cite, code,
@@ -34,9 +48,6 @@
     q:before, q:after {
         content: '';
         content: none;
-    }
-    table {
-        
     }
 }
 
@@ -95,7 +106,7 @@
     cursor: pointer;
     background: 0 0;
     border: 0;
-	padding: 8px;
+	/* padding: 8px; */
     float: right;
     font-size: 21px;
     font-weight: 700;
@@ -111,6 +122,9 @@
         cursor: pointer;
         filter: alpha(opacity=50);
         opacity: .5;
+    }
+    &.close-button--modal {
+        padding: 4px;
     }
 }
 
