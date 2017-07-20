@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 
-import './style/panel.scss';
+import './style/panel.styl';
 
 export const Panel = ({ className, ...props }) => {
 	return (

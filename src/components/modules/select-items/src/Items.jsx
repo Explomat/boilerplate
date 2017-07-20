@@ -1,5 +1,5 @@
 import React from 'react';
-import { ButtonPrimary } from '../../button';
+import PropTypes from 'prop-types';
 import some from 'lodash/some';
 import cx from 'classnames';
 
@@ -29,9 +29,9 @@ class HeaderCol extends React.Component {
 }
 
 HeaderCol.propTypes = {
-	name: React.PropTypes.string,
-	type: React.PropTypes.string,
-	onSort: React.PropTypes.func
+	name: PropTypes.string,
+	type: PropTypes.string,
+	onSort: PropTypes.func
 };
 
 HeaderCol.defaultProps = {
@@ -39,7 +39,7 @@ HeaderCol.defaultProps = {
 };
 
 HeaderCol.contextTypes = {
-	onSort: React.PropTypes.func
+	onSort: PropTypes.func
 };
 
 class Item extends React.Component {
@@ -56,21 +56,17 @@ class Item extends React.Component {
 	}
 
 	render(){
-		const data = this.props.data;
-		const classesButton = cx({
-			'body-row__add-btn': true,
-			'body-row__add-btn--selected': this.props.isSelected
-		});
+		const { data, isSelected } = this.props;
 		const classesIcon = cx({
-			'icon-plus': !this.props.isSelected,
-			'icon-check': this.props.isSelected
+			'icon-plus': !isSelected,
+			'icon-ok-1': isSelected,
+			'body-row__icon': true,
+			'body-row__icon--selected': isSelected
 		});
 		return (
 			<tr className='body-row' onClick={this.handleAddItem}>
 				<td>
-					<ButtonPrimary className={classesButton} reverse>
-						<i className={classesIcon} />
-					</ButtonPrimary>
+					<i className={classesIcon} />
 				</td>
 				{Object.keys(data).map((c, index) => {
 					return <td key={index} className='body-row__col oneline'>{data[c]}</td>;
@@ -81,8 +77,8 @@ class Item extends React.Component {
 }
 
 Item.propTypes = {
-	data: React.PropTypes.object,
-	isSelected: React.PropTypes.bool
+	data: PropTypes.object,
+	isSelected: PropTypes.bool
 };
 
 Item.defaultProps = {
@@ -91,23 +87,21 @@ Item.defaultProps = {
 };
 
 Item.contextTypes = {
-	onAddItem: React.PropTypes.func
+	onAddItem: PropTypes.func
 };
 
 class Items extends React.Component {
 
 	getColsMarkup(){
-		const headerCols = this.props.headerCols;
-		const markUpCols = [ <th key={0} /> ];
-		headerCols.forEach((c, index) => {
-			markUpCols.push(<HeaderCol key={index + 1} name={c.name} index={index}/>);
-		});
-		return markUpCols;
+		const { headerCols } = this.props;
+		return headerCols.reduce((f, s, index) => {
+			f.push(<HeaderCol key={index + 1} name={s.name} index={index}/>);
+			return f;
+		},  [ <th key={0} /> ]);
 	}
 
 	getRowsMarkUp(){
-		const items = this.props.items;
-		const selectedItems = this.props.selectedItems;
+		const { items, selectedItems } = this.props;
 		return items.map((i, index) => {
 			const isSelected = some(selectedItems, { id: i.id });
 			return <Item key={index} {...i} isSelected={isSelected}/>;
@@ -117,10 +111,6 @@ class Items extends React.Component {
 	render() {
 		const cols = this.getColsMarkup();
 		const items = this.getRowsMarkUp();
-		const isLoadingClass = cx({
-			'overlay-loading': true,
-			'overlay-loading--show': this.props.isLoading
-		});
 		return (
 			<div className='items-wrapper'>
 				<table className='items-wrapper__header'>
@@ -135,18 +125,16 @@ class Items extends React.Component {
 						</tbody>
 					</table>
 				</div>
-				
-				<div className={isLoadingClass} />
 			</div>
-			
+
 		);
 	}
 }
 
 Items.propTypes = {
-	headerCols: React.PropTypes.array,
-	items: React.PropTypes.array,
-	selectedItems: React.PropTypes.array
+	headerCols: PropTypes.array,
+	items: PropTypes.array,
+	selectedItems: PropTypes.array
 };
 
 Items.defaultProps = {

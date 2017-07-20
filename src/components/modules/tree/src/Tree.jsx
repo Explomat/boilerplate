@@ -1,7 +1,7 @@
 import React from 'react';
 import TreeNode from './TreeNode';
 
-import './style/tree.scss';
+import './style/tree.styl';
 
 class Tree extends React.Component {
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ButtonPrimary } from '../../button';
+import PropTypes from 'prop-types';
 
 class SelectedItem extends React.Component {
 
@@ -25,9 +25,7 @@ class SelectedItem extends React.Component {
 	render(){
 		return (
 			<div className='item' onClick={this.handleRemoveItem}>
-				<ButtonPrimary className='item__button' reverse>
-					<i className='icon-minus' />
-				</ButtonPrimary>
+				<i className='item__icon icon-minus' />
 				<label className='item__text oneline'>{this._getFirstField()}</label>
 			</div>
 		);
@@ -35,33 +33,24 @@ class SelectedItem extends React.Component {
 }
 
 SelectedItem.propTypes = {
-	id: React.PropTypes.string,
-	data: React.PropTypes.object
+	id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	data: PropTypes.object
 };
 
 SelectedItem.contextTypes = {
-	onRemoveItem: React.PropTypes.func
+	onRemoveItem: PropTypes.func
 };
 
-class SelectedItems extends React.Component {
-
-	getItemsMarkup(){
-		return this.props.items.map((item, index) => {
-			return <SelectedItem key={index} {...item}/>;
-		});
-	}
-
-	render() {
-		return (
-			<div className='selected-items'>
-				{this.getItemsMarkup()}
-			</div>
-		);
-	}
-}
+const SelectedItems = ({ items }) => {
+	return (
+		<div className='selected-items'>
+			{items.map((item, index) => <SelectedItem key={index} {...item}/>)}
+		</div>
+	);
+};
 
 SelectedItems.propTypes = {
-	items: React.PropTypes.array // [{id:'', cols: [{}, ...]}, ...]
+	items: PropTypes.array // [{id:'', cols: [{}, ...]}, ...]
 };
 
 SelectedItems.defaultProps = {

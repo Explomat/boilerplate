@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { TextView } from '../../text-label';
 import InputMoment from '../../input-moment';
 import cx from 'classnames';
@@ -7,22 +8,34 @@ import clickOutSide from 'react-onclickoutside';
 import moment from 'moment';
 moment.locale('ru');
 
-import './style/input-calendar.scss';
+import './style/input-calendar.styl';
 
 class InputCalendar extends Component {
-	
+
 	constructor(props){
 		super(props);
-		
+
 		this.state = {
 			isShow: false
 		};
-		
+
 		this.handleToogle = this.handleToogle.bind(this);
 		this.handleClickOutside = this.handleClickOutside.bind(this);
 		this.handleSave = this.handleSave.bind(this);
 	}
-	
+
+	componentDidMount(){
+		const el = this.refs.calendar;
+
+		const left = el.getBoundingClientRect().left;
+		const width = el.offsetWidth;
+		const windowWidth = window.innerWidth;
+		const bound = left + width;
+		if (bound >  windowWidth){
+			el.style.left = (windowWidth - bound) + 'px';
+		}
+	}
+
 	handleToogle(){
 		this.setState({ isShow: !this.state.isShow });
 	}
@@ -37,16 +50,21 @@ class InputCalendar extends Component {
 			this.props.onSave(_moment.format());
 		}
 	}
-	
+
 	render() {
 		const { isShow } = this.state;
 		const { className, placeholder, date, prevMonthIcon, nextMonthIcon } = this.props;
 		const { displayDate, displayTime } = this.props;
-		
+
 		const displayDateAndTime = displayDate && displayTime;
-		const dateTimeValue = displayDateAndTime ?
-			moment(date).format('LLL') : displayDate ?
-			moment(date).format('LL') : moment(date).format('hh:mm');
+		const curDate = date.isValid() ? date : moment(new Date());
+
+		const dateTimeFormat = displayDateAndTime ?
+			curDate.format('LLL') : displayDate ?
+			curDate.format('LL') : curDate.format('hh:mm');
+
+		const dateForTextbox = date.isValid() ? dateTimeFormat : 'Нет даты';
+
 		const iconClasses = cx({
 			'icon-clock-o': displayTime,
 			'icon-calendar': displayDate,
@@ -57,14 +75,14 @@ class InputCalendar extends Component {
 				<TextView
 					onClick={this.handleToogle}
 					inputClassName='input-calendar__date'
-					value={dateTimeValue}
+					value={dateForTextbox}
 					placeholder={placeholder}
 					readOnly
 				/>
 				<i className={iconClasses} onClick={this.handleToogle} />
-				<div className={cx({ 'input-calendar__calendar': true, 'input-calendar__calendar--show': isShow })}>
+				<div ref='calendar' className={cx({ 'input-calendar__calendar': true, 'input-calendar__calendar--show': isShow })}>
 					<InputMoment
-						moment={moment(date)}
+						moment={curDate}
 						onChange={this.props.onChange}
 						onSave={this.handleSave}
 						prevMonthIcon={prevMonthIcon}

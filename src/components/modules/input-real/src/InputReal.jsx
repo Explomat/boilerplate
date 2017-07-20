@@ -1,7 +1,8 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import NumericInput from 'react-numeric-input';
 
-import './style/input-real.scss';
+import './style/input-real.styl';
 
 const InputReal = ({ value, title, ...props }) => {
 	return (

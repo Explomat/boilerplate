@@ -1,24 +1,27 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import assign from 'lodash/assign';
 
-import './style/text-label.scss';
+import './style/text-label.styl';
 
 const TextBase = {
 
 	propTypes: {
-		type: React.PropTypes.string,
-		className: React.PropTypes.string,
-		inputClassName: React.PropTypes.string,
-		focused: React.PropTypes.bool,
-		onChange: React.PropTypes.func,
-		onBlur: React.PropTypes.func,
-		onClick: React.PropTypes.func,
-		isValid: React.PropTypes.func,
-		readOnly: React.PropTypes.bool
+		name: PropTypes.string,
+		type: PropTypes.string,
+		className: PropTypes.string,
+		inputClassName: PropTypes.string,
+		focused: PropTypes.bool,
+		onChange: PropTypes.func,
+		onBlur: PropTypes.func,
+		onClick: PropTypes.func,
+		isValid: PropTypes.func,
+		readOnly: PropTypes.bool
 	},
 
 	getDefaultProps() {
 		return {
+			name: 'label',
 			type: 'text',
 			value: '',
 			placeholder: '',
@@ -45,7 +48,7 @@ const TextBase = {
 			this.focus();
 		}
 	},
-	
+
 	addNotValidClassIfNeeded(val){
 		const value = val || this.state.value;
 		if (!this.props.isValid(value)) {
@@ -54,7 +57,7 @@ const TextBase = {
 			this.refs.inpt.classList.remove(this.props.notValidClass);
 		}
 	},
-	
+
 	getValue(){
 		return this.refs.inpt.value;
 	},
@@ -105,6 +108,7 @@ const TextView = React.createClass({
 	},
 
 	render() {
+		const name = this.props.name;
 		const isNotEmptyClass = this.state.value === '' ? '' : 'input-box__input_not-empty';
 		const isValidClass = !this.props.isValid(this.state.value) ? this.props.notValidClass : '';
 		const className = this.props.className ? this.props.className : '';
@@ -114,6 +118,7 @@ const TextView = React.createClass({
 			<div className={'input-box ' + className} tabIndex={1} onBlur={this.handleDetranslate}>
 				<input
 					ref='inpt'
+					name={name}
 					type={this.props.type}
 					value={this.state.value}
 					className={
@@ -135,10 +140,10 @@ const TextView = React.createClass({
 });
 
 const TextAreaView = React.createClass(assign({}, TextBase, {
-	
+
 	getInitialState(){
 		const baseObject = TextBase.getInitialState.call(this);
-		baseObject.height = 0;
+		baseObject.height = 30;
 		return baseObject;
 	},
 
@@ -148,10 +153,10 @@ const TextAreaView = React.createClass(assign({}, TextBase, {
 			this._setHeight();
 		}
 	},
-	
+
 	componentDidMount(){
 		TextBase.componentDidMount.call(this);
-		this.setState({ height: this.refs.hiddenBlock.offsetHeight });
+		//this.setState({ height: this.refs.hiddenBlock.offsetHeight });
 	},
 
 	_setHeight(){
@@ -175,8 +180,9 @@ const TextAreaView = React.createClass(assign({}, TextBase, {
 		this.refs.lbl.classList.remove('textarea-box__label_translate');
 		this.refs.lbl.classList.add('textarea-box__label_detranslate');
 	},
-	
+
 	render() {
+		const name = this.props.name;
 		const isNotEmptyClass = this.state.value === '' ? '' : 'textarea-box__input_not-empty';
 		const isValidClass = !this.props.isValid(this.state.value) ? this.validClass : '';
 		const textAreaStyle = { height: this.state.height + 'px' };
@@ -186,6 +192,7 @@ const TextAreaView = React.createClass(assign({}, TextBase, {
 				<textarea
 					ref='inpt'
 					style={textAreaStyle}
+					name={name}
 					className={'textarea-box__input ' + isNotEmptyClass + ' ' + isValidClass}
 					rows={this.props.rows || 1}
 					value={this.state.value}
@@ -201,9 +208,13 @@ const TextAreaView = React.createClass(assign({}, TextBase, {
 				>
 					{this.props.placeholder}
 				</label>
-				<div ref='hiddenBlock' className='textarea-box__hidden-block'>{this.state.value}</div>
+				<div
+					ref='hiddenBlock'
+					className='textarea-box__hidden-block'
+				>
+					{this.state.value}
+				</div>
 			</div>
-			
 		);
 	}
 }));

@@ -1,140 +1,140 @@
-var React = require('react');
-require('./style/dropinfo.scss');
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import cx from 'classnames';
+import './style/dropinfo.styl';
 
-var DropInfoHeader = React.createClass({
+class DropInfo extends Component {
 
-	contextTypes: {
-        parent: React.PropTypes.any
-    },
-
-    handleClick: function(){
-    	this.context.parent.handleToogleExpand();
-    },
-
-	render: function() {
-		var className = this.props.className ? this.props.className : '';
-		return (
-			<div onClick={this.handleClick} className={"dropinfo__content-header " + className}>
-				{this.props.children}
-			</div>
-		);
-	}
-});
-
-var DropInfoBody = React.createClass({
-
-	render: function() {
-		var className = this.props.className ? this.props.className : '';
-		return (
-			<div className={"dropinfo__content-body " + className}>
-				{this.props.children}
-			</div>
-		);
-	}
-});
-
-var DropInfoFooter = React.createClass({
-
-	render: function() {
-		var className = this.props.className ? this.props.className : '';
-		return (
-			<div className={"dropinfo__content-footer " + className}>
-				{this.props.children}
-			</div>
-		);
-	}
-});
-
-var DropInfo = React.createClass({
-
-	propTypes: {
-		children: React.PropTypes.oneOfType([React.PropTypes.element, React.PropTypes.array]),
-		expanded: React.PropTypes.bool,
-		onExpand: React.PropTypes.func,
-		descriptionMarkup: React.PropTypes.node,
-		children: React.PropTypes.oneOfType([React.PropTypes.element, React.PropTypes.array]),
-		classNameBlock: React.PropTypes.string,
-		additionalHeight: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string])
-	},
-
-	childContextTypes: {
-		parent: React.PropTypes.any
-	},
-
-	getChildContext: function() {
-        return { 
-        	parent: this
-        };
-    },
-
-	getDefaultProps: function(){
-		return {
-			additionalHeight: 20,
-			expanded: false
-		}
-	},
-
-	getInitialState: function() {
-		return {
-			expanded: this.props.expanded,
+	constructor(props){
+		super(props);
+		
+		this.expanded = props.expanded;
+		this.handleToogleExpand = this.handleToogleExpand.bind(this);
+		this.state = {
 			height: 0
-		}
-	},
+		};
+	}
 
-	componentDidMount: function(){
+	getChildContext() {
+		return {
+			parent: this
+		};
+	}
+
+	componentDidMount(){
 		this.expand(this.props.expanded);
-	},
-
-	componentWillReceiveProps: function(nextProps){
+	}
+	
+	componentWillReceiveProps(nextProps){
 		if (nextProps.expanded !== undefined && nextProps.expanded !== null){
 			this.expand(nextProps.expanded);
 		}
-	},
+	}
 
-	expand: function(_expanded){
-		var height = _expanded ? this.refs.dropinfoContent.offsetHeight + this.props.additionalHeight : 0;
-		this.setState({
-			expanded: _expanded,
-			height: height
-		});
-	},
+	componentWillUnmount(){
+		clearInterval(this.interval);
+	}
 
-	handleToogleExpand: function() {
-		var height = !this.state.expanded ? this.refs.dropinfoContent.offsetHeight + this.props.additionalHeight : 0;
-		this.setState({
-			expanded: !this.state.expanded,
-			height: height
-		});
-		if (this.props.onExpand) {
-			this.props.onExpand(!this.state.expanded);
+	handleToogleExpand() {
+		const { transitionTimeout } = this.props;
+		const { expanded } = this.state;
+		
+
+		if ((!expanded) === true){
+			const self = this;
+			this.timeout = setTimeout(() => {
+				self.setState({
+					height: 'auto'
+				});
+			}, transitionTimeout * 1000);
+		} else {
+			this.setState({
+				height: this.refs.dropinfoContent.offsetHeight + 20
+			});
+			clearTimeout(this.timeout);
 		}
-	},
+		this.expand(!expanded);
+		
+		if (this.props.onExpand) {
+			this.props.onExpand(!expanded);
+		}
+	}
 
-	render: function() {
-		var displayContentClassName = this.state.expanded ? "dropinfo__content-box_show" : "dropinfo__content-box_hide";
-		var displayBlockClassName = !this.state.expanded ? "dropinfo__block_show": "dropinfo__block_hide";
-		var glyphiconClass = this.state.expanded ? "glyphicon-menu-up" : "glyphicon-menu-down";
-		var classNameBlock = this.props.classNameBlock ? this.props.classNameBlock : '';
+	expand(_expanded){
+		const self = this;
+		const height = _expanded ? this.refs.dropinfoContent.offsetHeight + 20 : 0;
+		setTimeout(() => {
+			self.setState({
+				height,
+				expanded: _expanded
+			});
+		}, 0);
+	}
+
+	render() {
+		const { height, expanded } = this.state;
+		const { transitionTimeout, classNameBlock, label } = this.props;
+
+		const contentClassName = cx({
+			'dropinfo__content-box': true,
+			'dropinfo__content-box_show': expanded,
+			'dropinfo__content-box_hide': !expanded
+		});
+		const glyphiconClass = cx({
+			'icon-up-open': expanded,
+			'icon-down-open': !expanded
+		});
+		const classNameBl = cx({
+			'dropinfo__block': true,
+			'clearfix': true
+		}, classNameBlock);
+		const contentStyles = {
+			height,
+			'transition': `all ${transitionTimeout}s ease-in-out`,
+			'WebkitTransition': `all ${transitionTimeout}s ease-in-out`
+		};
 		return (
-			<div className="dropinfo">
-				<div onClick={this.handleToogleExpand} className={"dropinfo__block clearfix " + displayBlockClassName + " " + classNameBlock}>
-					{this.props.descriptionMarkup}
-					<span className={"dropinfo__glyphicon-block glyphicon " + glyphiconClass}></span>
+			<div className='dropinfo'>
+				<div
+					onClick={this.handleToogleExpand}
+					className={classNameBl}
+				>
+					{label}
+					<span className={`dropinfo__glyphicon-block ${glyphiconClass}`} />
 				</div>
-				<div style={{height: this.state.height}} className={"dropinfo__content-box " + displayContentClassName}>
-					<div ref="dropinfoContent" className="dropinfo__content">
+				<div
+					ref='dropinfoContentBox'
+					style={contentStyles}
+					className={contentClassName}
+				>
+					<div ref='dropinfoContent' className='dropinfo__content'>
 						{this.props.children}
-						<span onClick={this.handleToogleExpand} className={"dropinfo__glyphicon-content glyphicon " + glyphiconClass}></span>
+						<span
+							onClick={this.handleToogleExpand}
+							className={`dropinfo__glyphicon-content ${glyphiconClass}`}
+						/>
 					</div>
 				</div>
 			</div>
 		);
 	}
-});
-
-module.exports = {
-	DropInfo: DropInfo,
-	DropInfoHeader: DropInfoHeader,
-	DropInfoBody: DropInfoBody,
-	DropInfoFooter: DropInfoFooter
 }
+
+DropInfo.propTypes = {
+	children: PropTypes.oneOfType([PropTypes.element, PropTypes.array]),
+	expanded: PropTypes.bool,
+	onExpand: PropTypes.func,
+	label: PropTypes.node,
+	classNameBlock: PropTypes.string
+};
+
+DropInfo.childContextTypes = {
+	parent: PropTypes.any
+};
+
+DropInfo.defaultProps = {
+	transitionTimeout: 1,
+	expanded: false
+};
+
+export default DropInfo;

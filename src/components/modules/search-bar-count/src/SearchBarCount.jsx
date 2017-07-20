@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import SearchBar from '../../search-bar';
-import './style/search-bar-count.scss';
+import './style/search-bar-count.styl';
 
 const SearchBarCount = ({ firstValue, secondValue, ...props }) => {
 	return (
@@ -17,8 +18,8 @@ const SearchBarCount = ({ firstValue, secondValue, ...props }) => {
 };
 
 SearchBarCount.propTypes = {
-	firstValue: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
-	secondValue: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number])
+	firstValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	secondValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
 export default SearchBarCount;

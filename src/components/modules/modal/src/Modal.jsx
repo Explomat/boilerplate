@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { ButtonPrimary } from '../../button';
 import { Panel, PanelHeader, PanelBody, PanelFooter, PanelTitle } from '../../panel';
 import cx from 'classnames';
 
-import './style/modal.scss';
+import './style/modal.styl';
 
 class Modal extends Component {
-	
+
 	render(){
 		const { title, footerButtonText, className } = this.props;
 		const classes = cx('modal-dialog', className);
@@ -47,11 +48,11 @@ Modal.defaultProps = {
 };
 
 Modal.propTypes = {
-	title: React.PropTypes.string,
-	footerButtonText: React.PropTypes.string,
-	className: React.PropTypes.string,
-	onSave: React.PropTypes.func,
-	onClose: React.PropTypes.func
+	title: PropTypes.string,
+	footerButtonText: PropTypes.string,
+	className: PropTypes.string,
+	onSave: PropTypes.func,
+	onClose: PropTypes.func
 };
 
 export default Modal;

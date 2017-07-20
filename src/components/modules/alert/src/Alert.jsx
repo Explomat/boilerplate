@@ -1,7 +1,8 @@
 import React from 'react';
 import cx from 'classnames';
+import PropTypes from 'prop-types';
 
-import './style/alert.scss';
+import './style/alert.styl';
 
 export const Alert = ({ text, className, isClose, onClose, ...props }) => {
 	const classes = cx('alert', className);
@@ -39,8 +40,8 @@ Alert.defaultProps = {
 };
 
 Alert.propTypes = {
-	text: React.PropTypes.string.isRequired,
-	onClose: React.PropTypes.func,
-	className: React.PropTypes.string,
-	isClose: React.PropTypes.bool
+	text: PropTypes.string.isRequired,
+	onClose: PropTypes.func,
+	className: PropTypes.string,
+	isClose: PropTypes.bool
 };
