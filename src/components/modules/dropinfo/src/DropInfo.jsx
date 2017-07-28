@@ -73,8 +73,11 @@ class DropInfo extends Component {
 
 	render() {
 		const { height, expanded } = this.state;
-		const { transitionTimeout, classNameBlock, label } = this.props;
+		const { className, transitionTimeout, classNameBlock, label } = this.props;
 
+		const classes = cx({
+			'dropinfo': true
+		}, className);
 		const contentClassName = cx({
 			'dropinfo__content-box': true,
 			'dropinfo__content-box_show': expanded,
@@ -94,7 +97,7 @@ class DropInfo extends Component {
 			'WebkitTransition': `all ${transitionTimeout}s ease-in-out`
 		};
 		return (
-			<div className='dropinfo'>
+			<div className={classes}>
 				<div
 					onClick={this.handleToogleExpand}
 					className={classNameBl}
@@ -125,6 +128,7 @@ DropInfo.propTypes = {
 	expanded: PropTypes.bool,
 	onExpand: PropTypes.func,
 	label: PropTypes.node,
+	className: PropTypes.string,
 	classNameBlock: PropTypes.string
 };
 

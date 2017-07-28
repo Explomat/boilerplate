@@ -10,6 +10,16 @@
 	    font-size: 12px;
 	    font-weight: 700
     }
+    
+    .dropdown-box__disabled{
+    	position: absolute;
+    	top: 0;
+	    left: 0;
+	    z-index: 100;
+	    width: 100%;
+	    height: 100%;
+	    cursor: no-drop;
+    }
 
     .dropdown-box__default-item {
         cursor: pointer;
@@ -27,6 +37,10 @@
         overflow: hidden;
         font-size: inherit;
         display: block;
+        
+        &--disabled {
+        	color: rgba(0, 0, 0, 0.3);
+        }
     }
     
     .dropdown-box__container{
@@ -137,8 +151,11 @@
         transition: all 0.3s ease-out 0.02s;
         color: #444;
 
-        &.dropdown-box__caret--display{
+        &--display{
             display: inline-block;
+        }
+        &--disabled {
+        	color: rgba(0, 0, 0, 0.3);
         }
     }
 }

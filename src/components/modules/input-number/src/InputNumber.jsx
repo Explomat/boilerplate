@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import NumericInput from 'react-numeric-input';
+import NumericInput from '../../numeric-input';
 
 import './style/input-number.styl';
 

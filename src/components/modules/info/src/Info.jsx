@@ -16,10 +16,6 @@ class Info extends React.Component {
 	}
 
 	render() {
-		if (!this.props.isShow) {
-			return null;
-		}
-
 		const status = this.props.status;
 		const infoIconClasses = cx({
 			'info__icon': true,
@@ -54,12 +50,7 @@ class Info extends React.Component {
 Info.PropTypes = {
 	status: PropTypes.string,
 	message: PropTypes.string,
-	isShow: PropTypes.bool,
 	onClose: PropTypes.func
-};
-
-Info.defaultProps = {
-	isShow: false
 };
 
 export default Info;
